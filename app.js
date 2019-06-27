@@ -14,6 +14,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Router
 app.use(Router);
+
+// Database
+require('./config/mongo');
 
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
