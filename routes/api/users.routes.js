@@ -11,6 +11,8 @@ const {
     checkToken
 } = require('../../middleware/auth.middleware');
 
+router.use(checkToken);
+
 // @route   GET /api/users/test
 // @desc    Test route
 // @access  Public
@@ -21,12 +23,12 @@ router.get('/test', test);
 // @access  Private
 router.get(
     ''
-    , checkToken, protectRoute 
+    , protectRoute 
     , user);
 
 // @route   GET /api/users/all
 // @desc    Get all users
-// @access  Public
+// @access  Private
 router.get('/all', allUsers);
 
 module.exports = router;
