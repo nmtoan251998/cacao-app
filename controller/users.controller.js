@@ -11,9 +11,16 @@ module.exports.user = async (req, res) => {
 }
 
 module.exports.userById = async (req, res) => {
-    const user = req.user;
+    const id = req.params.id;
     
-    res.status(200).json(user);
+    User.findById(id)
+        .then(user => {
+            if(!user) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+            
+            res.status(200).json({ username: user.username });
+        })
 }
 
 module.exports.allUsers = async (req, res) => {

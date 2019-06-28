@@ -3,7 +3,8 @@ const router = require('express').Router();
 const {
     test,
     user,
-    allUsers
+    allUsers,
+    userById
 } = require('../../controller/users.controller');
 
 const {    
@@ -26,6 +27,16 @@ router.get(
 // @route   GET /api/users/all
 // @desc    Get all users
 // @access  Private
-router.get('/all', allUsers);
+router.get(
+    '/all'
+    , checkToken
+    , allUsers);
+
+// @route   GET /api/users/:id
+// @desc    Get user by id
+// @access  Public
+router.get(
+    '/:id'    
+    , userById);
 
 module.exports = router;
