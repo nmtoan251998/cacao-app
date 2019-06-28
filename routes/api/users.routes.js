@@ -6,12 +6,9 @@ const {
     allUsers
 } = require('../../controller/users.controller');
 
-const {
-    protectRoute,
+const {    
     checkToken
 } = require('../../middleware/auth.middleware');
-
-router.use(checkToken);
 
 // @route   GET /api/users/test
 // @desc    Test route
@@ -23,7 +20,7 @@ router.get('/test', test);
 // @access  Private
 router.get(
     ''
-    , protectRoute 
+    , checkToken 
     , user);
 
 // @route   GET /api/users/all

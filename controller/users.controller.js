@@ -10,6 +10,12 @@ module.exports.user = async (req, res) => {
     res.status(200).json(user);
 }
 
+module.exports.userById = async (req, res) => {
+    const user = req.user;
+    
+    res.status(200).json(user);
+}
+
 module.exports.allUsers = async (req, res) => {
     const users = await User.find();
 

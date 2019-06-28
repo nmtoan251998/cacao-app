@@ -44,18 +44,3 @@ module.exports.checkToken = (req, res, next) => {
         })
     }     
 }
-
-module.exports.protectRoute = (req, res, next) => {
-    // if user does not exist, but  token was not sent with request
-    // return 500 status code, send error to user
-    if(!req.user) {
-        return res.status(500).json({ 
-            success: false,
-            error: 'Unauthenticated',
-            msg: 'User does not login'
-        });
-    }
-
-    // if user exists the token was sent with the request, go to next middleware
-    next();
-}
