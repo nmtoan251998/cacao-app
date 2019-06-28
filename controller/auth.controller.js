@@ -1,11 +1,18 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const secretOrKey = process.env.privateKey || 'privateprivateprivate';
+
 const User = require('../model/users.model');
 
 const {
-    validateRegisterInput
+    validateRegisterInput,
+    validateLoginInput,
 } = require('../validation/auth.validate');
+
+const {
+    generateJWTToken
+} = require('../middleware/auth.middleware');
 
 module.exports.test = (req, res) => {
     res.send('Test auth route');
@@ -25,10 +32,10 @@ module.exports.registUser = (req, res) => {
                 return res.status(400).json(error);
             }
 
-            // Encode password with bcrypt
+            // Encode password with bcrypt before saving it to DB
             bcrypt.genSalt(10, (err, salt) => {
                 bcrypt.hash(req.body.password.trim(), salt, (err, hash) => {
-                    // Store hash in your password DB.
+                    // Store hash in DB.
                     const newUser = new User({
                         accountname: req.body.accountname.trim(),
                         username: req.body.username.trim(),
@@ -40,8 +47,6 @@ module.exports.registUser = (req, res) => {
                             res
                                 .status(200)
                                 .json({ success: true, msg: `Create user ${newUser.username}`})
-                            
-                            console.log(newUser);
                         })
                         .catch(err => {
                             error.failToRegister = 'Fail to register new user';
@@ -52,6 +57,38 @@ module.exports.registUser = (req, res) => {
         })
 }
 
-module.exports.loginUser = (req, res) => {
-    const userLogin = req.body;
+module.exports.loginUser = (req, res, next) => {
+    const error = validateLoginInput(req.body);
+
+    const accountname = req.body.accountname.trim();
+    const password = req.body.password.trim();
+
+    if(Object.keys(error).length > 0) {
+        return res.status(400).json(error);
+    }
+
+    // Find user with accountname
+    User.findOne({ accountname })
+        .then(user => {
+            if(!user) {
+                error.userNotFound = 'Wrong accountnamne or password';
+                return res.status(404).json(error);
+            }
+
+            bcrypt.compare(password, user.password, (err, result) => {
+                if(result === false) {
+                    error.userNotFound = 'Wrong accountnamne or password';
+                    return res.status(404).json(error);
+                }
+
+                const token = jwt.sign({ accountname: user.accountname }, secretOrKey);
+
+                res.status(200).json({ 
+                    accountname: user.accountname,
+                    token: 'Bearer ' +token
+                });
+
+            })
+        }) 
 }
+

@@ -15,7 +15,7 @@ module.exports.validateRegisterInput = (data) => {
     
     // username must be between min and max characters 
     if(!validator.isLength(username, { min: 2, max: 30 })) {
-        error.usernameLength = 'Username must be at least 6 character and below 30 characters';
+        error.usernameLength = 'User name must be at least 6 character and below 30 characters';
     }
 
     // accountname cannot be empty
@@ -25,7 +25,7 @@ module.exports.validateRegisterInput = (data) => {
     
     // accountname must be between min and max characters 
     if(!validator.isLength(accountname, { min: 4, max: 20 })) {
-        error.accountnameLength = 'Accountname must be at least 4 character and below 20 characters';
+        error.accountnameLength = 'Account name must be at least 4 character and below 20 characters';
     }
 
     // password cannot be empty
@@ -43,9 +43,24 @@ module.exports.validateRegisterInput = (data) => {
         error.passwordNotMatch = 'Two passwords must match';
     }
 
-    console.log(username.length);
-    console.log(accountname.length);
-    console.log(password.length);
+    return error;
+}
+
+module.exports.validateLoginInput = (data) => {
+    const accountname = data.accountname.trim();
+    const password = data.password.trim(); 
+
+    const error = {};
+
+    // accountname cannot be empty
+    if(validator.isEmpty(accountname)) {
+        error.emptyAccountname = 'Account name field cannot be empty';
+    }
+
+    // password cannot be empty
+    if(validator.isEmpty(password)) {
+        error.emptyPassword = 'Password field cannot be empty';
+    } 
 
     return error;
 }
