@@ -75,6 +75,27 @@ module.exports.modifyUserById = (req, res) => {
         })
 }
 
+module.exports.deleteUserById = (req, res) => {
+    const id = req.params.id;
+    
+    User.findById(id)
+        .then(user => {
+            if(!user) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+            
+            User.findByIdAndRemove(id)
+                .then(deleteedUser => res.status(200).json({
+                    success: true,
+                    msg: 'Deleted user'
+                }))
+                .catch(err => res.status(400).json({
+                    success: false,
+                    error: 'Fail to delete user information'
+                }));            
+        })
+}
+
 module.exports.allUsers = async (req, res) => {
     const users = await User.find();
 

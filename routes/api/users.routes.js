@@ -5,7 +5,8 @@ const {
     user,
     allUsers,
     userById,
-    modifyUserById
+    modifyUserById,
+    deleteUserById
 } = require('../../controller/users.controller');
 
 const {    
@@ -47,5 +48,13 @@ router.patch(
     '/:id'
     , checkToken
     , modifyUserById);
+
+// @route   DELETE /api/users/:id
+// @desc    Delete user by id
+// @access  Private
+router.delete(
+    '/:id'
+    , checkToken
+    , deleteUserById);
 
 module.exports = router;
