@@ -12,10 +12,9 @@ module.exports.test = (req, res) => {
 }
 
 module.exports.registUser = (req, res) => {
-    const error = validateRegisterInput(req.body);        
+    const error = validateRegisterInput(req.body);
 
-    if(req.body.password.trim() !== req.body.password2.trim()) {
-        error.passwordMustMatch = 'Two password must match';
+    if(Object.keys(error).length > 0) {
         return res.status(400).json(error);
     }
 
