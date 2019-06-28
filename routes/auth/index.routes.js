@@ -1,11 +1,24 @@
 const router = require('express').Router();
 
-const controller = require('../../controller/auth.controller');
+const {
+    test,
+    registUser,
+    loginUser,
+} = require('../../controller/auth.controller');
 
-router.get('/test', controller.test);
-// router.get('/login');
-// router.post('/login');
-// router.get('/register');
-// router.post('/register');
+// @route   GET /auth/test
+// @desc    Test route
+// @access  Public
+router.get('/test', test);
+
+// @route   POST /auth/login
+// @desc    Regist new user
+// @access  Public
+router.post('/register', registUser);
+
+// @route   POST /auth/login
+// @desc    Login with the given user's account information
+// @access  Public
+router.post('/login', loginUser);
 
 module.exports = router;
