@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const controller = require('../../controller/auth.js');
+const controller = require('../../controller/auth.controller');
 
 router.get('/test', controller.test);
 // router.get('/login');
