@@ -4,11 +4,15 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "server": "nodemon app.js",
+    "view-install": "npm install --prefix cacao-app-view",
+    "view": "npm start --prefix cacao-app-view",
+    "dev": "concurrently \"npm run server\" \"npm run view\""
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
+    "concurrently": "^4.1.1",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
