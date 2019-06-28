@@ -17,7 +17,7 @@ router.get('/test', test);
 router.post('/register', registUser);
 
 // @route   POST /auth/login
-// @desc    Login with the given user's account information
+// @desc    Login with the given user's account information / Sign a JWT token and send it to FE
 // @access  Public
 router.post('/login', loginUser);
 

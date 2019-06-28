@@ -81,14 +81,18 @@ module.exports.loginUser = (req, res, next) => {
                     return res.status(404).json(error);
                 }
 
-                const token = jwt.sign({ accountname: user.accountname }, secretOrKey);
+                const token = jwt.sign({ userId: user._id }
+                    , secretOrKey
+                    , { expiresIn: '24h' }// expires in 24 hours
+                );
 
                 res.status(200).json({ 
+                    userId: user._id,
                     accountname: user.accountname,
+                    username: user.username,
                     token: 'Bearer ' +token
                 });
 
             })
         }) 
 }
-
