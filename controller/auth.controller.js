@@ -34,11 +34,11 @@ module.exports.registUser = (req, res) => {
 
             // Encode password with bcrypt before saving it to DB
             bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(req.body.password.trim(), salt, (err, hash) => {
+                bcrypt.hash(req.body.password, salt, (err, hash) => {
                     // Store hash in DB.
                     const newUser = new User({
-                        accountname: req.body.accountname.trim(),
-                        username: req.body.username.trim(),
+                        accountname: req.body.accountname,
+                        username: req.body.username,
                         password: hash,
                     })
                     

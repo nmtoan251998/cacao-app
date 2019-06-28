@@ -4,7 +4,8 @@ const {
     test,
     user,
     allUsers,
-    userById
+    userById,
+    modifyUserById
 } = require('../../controller/users.controller');
 
 const {    
@@ -28,15 +29,23 @@ router.get(
 // @desc    Get all users
 // @access  Private
 router.get(
-    '/all'
-    , checkToken
+    '/all'    
     , allUsers);
 
 // @route   GET /api/users/:id
 // @desc    Get user by id
 // @access  Public
 router.get(
-    '/:id'    
+    '/:id'  
+    , checkToken  
     , userById);
+
+// @route   PATCH /api/users/:id
+// @desc    Modify user by id
+// @access  Private
+router.patch(
+    '/:id'
+    , checkToken
+    , modifyUserById);
 
 module.exports = router;

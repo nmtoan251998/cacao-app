@@ -22,9 +22,9 @@ module.exports.checkToken = (req, res, next) => {
     if(token) {
         jwt.verify(token, secretOrKey, (err, payload) => {
             if(err) {                
-                return res.status(401).json({
+                return res.status(403).json({
                     success: false,
-                    error: 'Unauthorized',
+                    error: 'Unvalid token',
                     msg: 'Token is not valid'
                 });
             } else {
