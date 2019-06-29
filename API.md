@@ -1,16 +1,10 @@
 # APIs
 - [POST /auth/login](#auth-post-login)
-
 - [POST /auth/register](#auth-post-register)
-
 - [GET /api/users](#api-users-get)
-
 - [GET /api/users/:id](#api-users-get-by-id)
-
 - [PATCH /api/users/:id](#api-users-patch-by-id)
-
 - [DELETE /api/users/:id](#api-users-del-by-id)
-
 - [GET /api/users/all](#api-users-get-all)
 
 
@@ -49,6 +43,7 @@ Status code: <span style="color: lightcoral">404</span> Not found
 
 ___
 ## 2.POST /auth/register
+<a name="auth-post-register" hidden></a>
 
 | Route                | Description                        | Access      |
 |:---------------------|:-----------------------------------|:------------|
@@ -201,7 +196,6 @@ Status code: <span style="color: lightcoral">404</span> Not found
 | Route                 | Description                        | Access      |
 |:----------------------|:-----------------------------------|:------------|
 | DELETE /api/users/:id | Delete user by user's id           | Private     | 
-|                       |                                    |             |       
 
 ## Responses
 **application/json** *object*
