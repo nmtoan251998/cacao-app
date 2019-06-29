@@ -10,9 +10,12 @@ const {
 } = require('../../controller/users.controller');
 
 const {    
-    checkToken,
-    protectedRoute,
+    checkToken,    
 } = require('../../middleware/auth.middleware');
+
+const {        
+    protectedRoute,
+} = require('../../middleware/users.middleware');
 
 const {
     validateModifyInput

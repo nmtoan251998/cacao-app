@@ -5,16 +5,18 @@ const uploads = require('../../config/multer');
 const { 
     test,
     createProduct,
-    allProducts
+    allProducts,
+    modifyById,
+    delById
 } = require('../../controller/products.controller');
 
 const {    
-    checkToken,
-    protectedRoute,    
+    checkToken,    
 } = require('../../middleware/auth.middleware');
 
 const {    
-    validateCreateProduct    
+    validateCreationInput,
+    validateModificationInput,
 } = require('../../validation/products.validate');
 
 // @route   GET /api/products/test
@@ -27,12 +29,28 @@ router.get('/text', test);
 // @access  Public
 router.post(
     ''
-    , validateCreateProduct
+    , validateCreationInput
     , createProduct);
 
 // @route   POST /api/products/all
 // @desc    Get all currents products
 // @access  Public
 router.get('/all', allProducts);
+
+// @route   PATCH /api/products/:id
+// @desc    Modify product by id
+// @access  Private
+router.patch(
+    '/:id'
+    , checkToken, validateModificationInput
+    , modifyById);
+
+// @route   DELETE /api/products/:id
+// @desc    Delete product by id
+// @access  Private
+router.delete(
+    '/:id'
+    , checkToken
+    , delById);
 
 module.exports = router;
