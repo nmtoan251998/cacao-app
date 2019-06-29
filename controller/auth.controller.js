@@ -29,7 +29,7 @@ module.exports.registUser = (req, res) => {
         .then(user => {
             if(user) {
                 error.accountAxist = 'This account name already axist';
-                return res.status(400).json(error);
+                return res.status(409).json(error);
             }
 
             // Encode password with bcrypt before saving it to DB

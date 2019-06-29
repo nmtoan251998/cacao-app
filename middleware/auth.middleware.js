@@ -14,33 +14,34 @@ module.exports.checkToken = (req, res, next) => {
     
     let token = req.headers['x-access-token'] || req.headers['authorization'];
 
+    if(!token) {        
+        return res.status(401).json({
+            success: false,            
+            msg: 'Auth token is not provided'
+        })
+    }
+
     if(token.startsWith('Bearer ')) {
         // Remove Bearer from string
         token = token.slice(7, token.length);
-    }    
-
+    }        
+        
     if(token) {
         jwt.verify(token, secretOrKey, (err, payload) => {
-            if(err) {                
-                return res.status(403).json({
-                    success: false,
-                    error: 'Unvalid token',
-                    msg: 'Token is not valid'
+            if(err) {                                
+                return res.status(401).json({
+                    success: false,                    
+                    msg: 'Invalid auth token'
                 });
-            } else {
-                User.findById(payload.userId)
-                    .then(user => {                        
-                        // sign payload information into req.user
-                        req.user = user;                        
-                        next();
-                    })
-            }                
+            }
+            
+            User.findById(payload.userId)            
+                .then(user => {
+                    // sign payload information into req.user
+                    req.user = user;                        
+                    next();
+                })                            
         })
-    } else {
-        return res.status(403).json({
-            success: false,
-            error: 'Unauthenticated',
-            msg: 'Auth token is not provided'
-        })
-    }     
+    }            
 }
+

@@ -10,8 +10,11 @@ const {
 } = require('../../controller/users.controller');
 
 const {    
-    checkToken
+    checkToken    
 } = require('../../middleware/auth.middleware');
+const {        
+    protectedRoute
+} = require('../../middleware/users.middleware');
 
 // @route   GET /api/users/test
 // @desc    Test route
@@ -31,14 +34,14 @@ router.get(
 // @access  Private
 router.get(
     '/all'    
+    , checkToken
     , allUsers);
 
 // @route   GET /api/users/:id
 // @desc    Get user by id
 // @access  Public
 router.get(
-    '/:id'  
-    , checkToken  
+    '/:id'    
     , userById);
 
 // @route   PATCH /api/users/:id
@@ -46,7 +49,7 @@ router.get(
 // @access  Private
 router.patch(
     '/:id'
-    , checkToken
+    , checkToken, protectedRoute
     , modifyUserById);
 
 // @route   DELETE /api/users/:id
@@ -54,7 +57,7 @@ router.patch(
 // @access  Private
 router.delete(
     '/:id'
-    , checkToken
+    , checkToken, protectedRoute
     , deleteUserById);
 
 module.exports = router;

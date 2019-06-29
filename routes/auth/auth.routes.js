@@ -11,7 +11,7 @@ const {
 // @access  Public
 router.get('/test', test);
 
-// @route   POST /auth/login
+// @route   POST /auth/register
 // @desc    Regist new user
 // @access  Public
 router.post('/register', registUser);

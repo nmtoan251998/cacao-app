@@ -1,7 +1,5 @@
 const bcrypt = require('bcrypt');
 
-const secretOrKey = process.env.privateKey || 'privateprivateprivate';
-
 const User = require('../model/users.model');
 
 const {
@@ -14,6 +12,13 @@ module.exports.test = (req, res) => {
 
 module.exports.user = (req, res) => {
     const user = req.user;
+
+    if(!user) {
+        return res.status(401).json({
+            success: false,                    
+            msg: 'Invalid auth token'
+        })
+    }
     
     res.status(200).json(user);
 }
@@ -24,7 +29,10 @@ module.exports.userById = (req, res) => {
     User.findById(id)
         .then(user => {
             if(!user) {
-                return res.status(404).json({ error: 'User not found' });
+                return res.status(404).json({ 
+                    success: false, 
+                    msg: 'User not found' 
+                });
             }
 
             res.status(200).json({ username: user.username });
@@ -39,12 +47,7 @@ module.exports.modifyUserById = (req, res) => {
     if(Object.keys(error).length > 0) {
         return res.status(400).json(error);
     }
-
-    if(req.user._id.toString() !== id) {        
-        error.authorization = 'Unauthorized';
-        return res.status(401).json(error);
-    }
-    
+        
     User.findById(id)
         .then(user => {
             if(!user) {
@@ -96,12 +99,12 @@ module.exports.deleteUserById = (req, res) => {
         })
 }
 
-module.exports.allUsers = async (req, res) => {
+module.exports.allUsers = async (req, res) => {    
     const users = await User.find();
 
     if(!users) {
         return res.status(404).json({ error: 'Users not found. '});
     }
 
-    res.status(200).json(users);
+    res.status(200).json(users);    
 }
