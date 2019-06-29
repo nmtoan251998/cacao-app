@@ -1,10 +1,10 @@
 const validator = require('validator');
 
-module.exports.validateModifyInput = (data) => {
-    const username = data.username.trim();
-    const password = data.password.trim(); 
-    const password2 = data.password2.trim();
-
+module.exports.validateModifyInput = (req, res, next) => {
+    const username = (req.body.username) ? req.body.username.toString().trim() : '';
+    const password = (req.body.password) ? req.body.password.toString().trim() : '';
+    const password2 = (req.body.password2) ? req.body.password2.toString().trim() : '';
+    
     const error = {};
 
     // username cannot be empty
@@ -32,5 +32,9 @@ module.exports.validateModifyInput = (data) => {
         error.passwordNotMatch = 'Two passwords must match';
     }
 
-    return error;
+    if(Object.keys(error).length > 0) {
+        return res.status(400).json(error);
+    }
+
+    next();
 }

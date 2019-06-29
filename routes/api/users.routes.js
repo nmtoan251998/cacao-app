@@ -14,6 +14,10 @@ const {
     protectedRoute,
 } = require('../../middleware/auth.middleware');
 
+const {
+    validateModifyInput
+} = require('../../validation/users.validate');
+
 // @route   GET /api/users/test
 // @desc    Test route
 // @access  Public
@@ -47,7 +51,7 @@ router.get(
 // @access  Private
 router.patch(
     '/:id'
-    , checkToken, protectedRoute
+    , checkToken, protectedRoute, validateModifyInput
     , modifyUserById);
 
 // @route   DELETE /api/users/:id

@@ -2,10 +2,6 @@ const bcrypt = require('bcrypt');
 
 const User = require('../model/users.model');
 
-const {
-    validateModifyInput
-} = require('../validation/users.validate');
-
 module.exports.test = (req, res) => {
     res.send('Test users API');
 }
@@ -42,12 +38,8 @@ module.exports.userById = (req, res) => {
 module.exports.modifyUserById = (req, res) => {
     const id = req.params.id;
 
-    const error = validateModifyInput(req.body);
+    const error = {};
 
-    if(Object.keys(error).length > 0) {
-        return res.status(400).json(error);
-    }
-        
     User.findById(id)
         .then(user => {
             if(!user) {
