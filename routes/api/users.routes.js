@@ -10,11 +10,9 @@ const {
 } = require('../../controller/users.controller');
 
 const {    
-    checkToken    
+    checkToken,
+    protectedRoute,
 } = require('../../middleware/auth.middleware');
-const {        
-    protectedRoute
-} = require('../../middleware/users.middleware');
 
 // @route   GET /api/users/test
 // @desc    Test route
