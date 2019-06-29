@@ -5,25 +5,12 @@ const secretOrKey = process.env.privateKey || 'privateprivateprivate';
 
 const User = require('../model/users.model');
 
-const {
-    validateRegisterInput,
-    validateLoginInput,
-} = require('../validation/auth.validate');
-
-const {
-    generateJWTToken
-} = require('../middleware/auth.middleware');
-
 module.exports.test = (req, res) => {
     res.send('Test auth route');
 }
 
 module.exports.registUser = (req, res) => {
-    const error = validateRegisterInput(req.body);
-
-    if(Object.keys(error).length > 0) {
-        return res.status(400).json(error);
-    }
+    const error = {};
 
     User.findOne({ accountname: req.body.accountname.trim() })
         .then(user => {
@@ -58,14 +45,10 @@ module.exports.registUser = (req, res) => {
 }
 
 module.exports.loginUser = (req, res, next) => {
-    const error = validateLoginInput(req.body);
+    const error = {};
 
     const accountname = req.body.accountname.trim();
     const password = req.body.password.trim();
-
-    if(Object.keys(error).length > 0) {
-        return res.status(400).json(error);
-    }
 
     // Find user with accountname
     User.findOne({ accountname })

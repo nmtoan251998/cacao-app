@@ -1,10 +1,10 @@
 const validator = require('validator');
 
-module.exports.validateRegisterInput = (data) => {
-    const username = data.username.trim();   
-    const accountname = data.accountname.trim();
-    const password = data.password.trim(); 
-    const password2 = data.password2.trim();
+module.exports.validateRegisterInput = (req, res, next) => {
+    const username = (req.body.username) ? req.body.username.toString().trim() : '';   
+    const accountname = (req.body.accountname) ? req.body.accountname.toString().trim() : '';
+    const password = (req.body.password) ? req.body.password.toString().trim() : '' 
+    const password2 = (req.body.password2) ? req.body.password2.toString().trim() : '';
 
     const error = {};
 
@@ -43,12 +43,16 @@ module.exports.validateRegisterInput = (data) => {
         error.passwordNotMatch = 'Two passwords must match';
     }
 
-    return error;
+    if(Object.keys(error).length > 0) {
+        return res.status(400).json(error);
+    }
+
+    next();
 }
 
-module.exports.validateLoginInput = (data) => {
-    const accountname = data.accountname.trim();
-    const password = data.password.trim(); 
+module.exports.validateLoginInput = (req, res, next) => {
+    const accountname = (req.body.accountname) ? req.body.accountname.toString().trim() : '';
+    const password = (req.body.password) ? req.body.password.toString().trim() : '' 
 
     const error = {};
 
@@ -62,5 +66,9 @@ module.exports.validateLoginInput = (data) => {
         error.emptyPassword = 'Password field cannot be empty';
     } 
 
-    return error;
+    if(Object.keys(error).length > 0) {
+        return res.status(400).json(error);
+    }
+
+    next();
 }
