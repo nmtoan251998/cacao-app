@@ -17,8 +17,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// developement middlewares
-app.use(logger('dev'));
+if(process.env.NODE_ENV !== 'test') {
+    app.use(logger('dev'));
+}
 
 // serve uploaded files
 app.use('/uploads', express.static(__dirname + '/uploads'));
@@ -27,3 +28,5 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(Router);
 
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
+
+module.exports = app; // for testing
