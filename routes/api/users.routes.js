@@ -36,7 +36,7 @@ router.get(
 // @access  Private
 router.get(
     '/all'    
-    , checkToken
+    // , checkToken
     , allUsers);
 
 // @route   GET /api/users/:id
