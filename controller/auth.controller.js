@@ -16,7 +16,7 @@ module.exports.registUser = (req, res) => {
         .then(user => {
             if(user) {
                 error.accountAxist = 'This account name already axist';
-                return res.status(409).json(error);
+                return res.status(409).json({ error });
             }
 
             // Encode password with bcrypt before saving it to DB
@@ -37,7 +37,7 @@ module.exports.registUser = (req, res) => {
                         })
                         .catch(err => {
                             error.failToRegister = 'Fail to register new user';
-                            res.status(400).json(error);
+                            res.status(400).json({ error });
                         })
                 });
             });
@@ -55,13 +55,13 @@ module.exports.loginUser = (req, res, next) => {
         .then(user => {
             if(!user) {
                 error.userNotFound = 'Wrong accountnamne or password';
-                return res.status(404).json(error);
+                return res.status(404).json({ error });
             }
 
             bcrypt.compare(password, user.password, (err, result) => {
                 if(result === false) {
                     error.userNotFound = 'Wrong accountnamne or password';
-                    return res.status(404).json(error);
+                    return res.status(404).json({ error });
                 }
 
                 const token = jwt.sign({ userId: user._id }
