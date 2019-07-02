@@ -54,11 +54,12 @@ module.exports.validateCreationInput = (req, res, next) => {
 module.exports.validateModificationInput = (req, res, next) => {
     const error = {};
 
+    console.log()
+
     const name = (req.body.name) ? req.body.name.toString().trim() : '';
     const type = (req.body.type) ? req.body.type.toString().trim() : '';
     const price = (req.body.price) ? req.body.price.toString().trim() : '';
-    const description = (req.body.description) ? req.body.description.toString().trim() : '';
-    const image = (req.body.image) ? req.body.image.toString().trim() : '';    
+    const description = (req.body.description) ? req.body.description.toString().trim() : '';    
 
     // Product name cannot be empty
     if(validator.isEmpty(name)) {
@@ -96,7 +97,7 @@ module.exports.validateModificationInput = (req, res, next) => {
     }
 
     if(Object.keys(error).length > 0) {
-        return res.status(400).json(error);
+        return res.status(400).json({ error });
     }
 
     next();

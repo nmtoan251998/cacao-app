@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const uploads = require('../../config/multer');
+const upload = require('../../config/multer');
 
 const { 
     test,
@@ -26,10 +26,12 @@ router.get('/text', test);
 
 // @route   POST /api/products
 // @desc    Mock api to create new product
-// @access  Public
+// @access  Public (change to Private later)
+
 router.post(
     ''
     , validateCreationInput
+    , upload.single('image')
     , createProduct);
 
 // @route   POST /api/products/all

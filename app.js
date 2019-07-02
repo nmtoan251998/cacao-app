@@ -8,7 +8,6 @@ const Router = require('./routes/index.routes.js');
 // Database
 require('./config/mongo');
 
-
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -22,7 +21,7 @@ if(process.env.NODE_ENV !== 'test') {
 }
 
 // serve uploaded files
-app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use(express.static('uploads'));
 
 // Router
 app.use(Router);

@@ -9,6 +9,7 @@ module.exports.createProduct = (req, res) => {
         name: req.body.name.trim(),
         type: req.body.type.trim(),
         price: req.body.price.trim(),
+        featured: req.body.featured.toString().trim() === 'true' ? true : false,
     })
 
     // if price field exists, then assign it to newProduct
@@ -19,13 +20,19 @@ module.exports.createProduct = (req, res) => {
     // if description field exists, then assign it to newProduct
     if(req.body.description) {
         newProduct.description = req.body.description.trim();
-    }
+    }    
+
+    // if image field exists, then assign it to newProduct
+    if(req.file) {
+        newProduct.image = req.file.filename;            
+    }    
 
     newProduct.save()
         .then(product => {
             res.status(200).json({
                 success: true,
-                msg: 'Create new product'
+                msg: 'Create new product',
+                fileUrl: 'http://192.168.0.1:5000/uploads/' + req.file.filename,
             })
         })
         .catch(err => {
@@ -97,6 +104,7 @@ module.exports.modifyById = (req, res) => {
                 name: req.body.name.trim(),
                 type: req.body.type.trim(),
                 price: req.body.price.trim(),
+                featured: req.body.featured.toString().trim() === 'true' ? true : false
             }
 
             // if price field exists, then assign it to modifiedProduct

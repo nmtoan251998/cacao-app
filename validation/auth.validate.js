@@ -67,7 +67,7 @@ module.exports.validateLoginInput = (req, res, next) => {
     } 
 
     if(Object.keys(error).length > 0) {
-        return res.status(400).json(error);
+        return res.status(400).json({ error });
     }
 
     next();
