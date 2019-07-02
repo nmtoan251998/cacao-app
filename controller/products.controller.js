@@ -80,9 +80,10 @@ module.exports.delById = (req, res) => {
             });
         })
         .catch(err => {
+            // console.log(err);
             res.status(400).json({
                 success: false,
-                msg: 'Cannot delete product'
+                msg: 'Error delete product'
             })
         })
 }
@@ -128,18 +129,19 @@ module.exports.modifyById = (req, res) => {
                         modifiedProduct
                     })
                 })
-                .catch(err => {                    
+                .catch(err => { 
+                    // console.log(err);                   
                     res.status(400).json({
                         success: false,
                         msg: 'Error modify product'
                     })
                 })            
         })
-        .catch(err => {
-            console.log(err);
+        .catch(err => {    
+            // console.log(err);
             res.status(400).json({
                 success: false,
-                msg: 'Cannot modify product'
+                msg: 'Error modify product'
             })
         })
 }
