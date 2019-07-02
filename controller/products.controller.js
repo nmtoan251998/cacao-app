@@ -32,11 +32,19 @@ module.exports.createProduct = (req, res) => {
         .then(product => {                  
             res.status(200).json({
                 success: true,
+<<<<<<< HEAD
                 error             
             })            
         })
         .catch(err => {
             error.createNewProduct = 'Failed to create new product';
+=======
+                newProduct        
+            })            
+        })
+        .catch(err => {
+            error.createProduct = 'Failed to create new product';
+>>>>>>> master
             res.status(400).json({
                 success: false,
                 error
@@ -46,10 +54,16 @@ module.exports.createProduct = (req, res) => {
 
 module.exports.allProducts = (req, res) => {
     const error = {};
+<<<<<<< HEAD
 
     Product.find()
         .then(products => {
             if(!products.length) {                
+=======
+    Product.find()
+        .then(products => {
+            if(!products.length) {
+>>>>>>> master
                 error.noProducts = 'No products found';
                 return res.status(404).json({
                     success: false,
@@ -57,7 +71,10 @@ module.exports.allProducts = (req, res) => {
                 })
             }                        
 
-            res.status(200).json(products);
+            res.status(200).json({
+                success: true, 
+                products
+            });
         })
         .catch(err => {
             error.noProducts = 'No products found';
@@ -84,7 +101,11 @@ module.exports.delById = (req, res) => {
 
             res.status(200).json({
                 success: true,
+<<<<<<< HEAD
                 error
+=======
+                deletedProduct: product
+>>>>>>> master
             });
         })
         .catch(err => {
@@ -133,10 +154,15 @@ module.exports.modifyById = (req, res) => {
             }
 
             Product.findByIdAndUpdate(id, modifiedProduct)
+<<<<<<< HEAD
                 .then(newProduct => {
                     res.status(200).json({
+=======
+                .then(updatedProduct => {
+                    res.status(200).json( {
+>>>>>>> master
                         success: true,
-                        modifiedProduct
+                        updatedProduct
                     })
                 })
                 .catch(err => { 
