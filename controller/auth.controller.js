@@ -61,7 +61,7 @@ module.exports.loginUser = (req, res, next) => {
     User.findOne({ accountname })
         .then(user => {
             if(!user) {
-                error.wrongAuth = 'Wrong accountnamne or password';
+                error.wrongAccount = 'Wrong accountnamne or password';
                 return res.status(404).json({
                     success: false,
                     error 
@@ -70,7 +70,7 @@ module.exports.loginUser = (req, res, next) => {
 
             bcrypt.compare(password, user.password, (err, result) => {
                 if(result === false) {
-                    error.wrongAuth = 'Wrong accountnamne or password';
+                    error.wrongAccount = 'Wrong accountnamne or password';
                     return res.status(404).json({
                         success: false,
                         error 
