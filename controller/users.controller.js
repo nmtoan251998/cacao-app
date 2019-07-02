@@ -7,9 +7,12 @@ module.exports.test = (req, res) => {
 }
 
 module.exports.user = (req, res) => {    
-    const user = req.user;
+    const user = req.user;    
     
-    res.status(200).json(user);
+    res.status(200).json({ 
+        success: true,        
+        user 
+    });
 }
 
 module.exports.userById = (req, res) => {
@@ -26,7 +29,10 @@ module.exports.userById = (req, res) => {
                 });
             }
 
-            res.status(200).json({ username: user.username });
+            res.status(200).json({ 
+                success: true,                
+                username: user.username 
+            });
         })
 }
 
@@ -57,7 +63,7 @@ module.exports.modifyUserById = (req, res) => {
                     User.findByIdAndUpdate(id, modifiedData)
                         .then(updatedUser => res.status(200).json({
                             success: true,
-                            error
+                            updatedUser                            
                         }))
                         .catch(err => {
                             error.updateInfor = 'Failed to update user information';
@@ -74,7 +80,6 @@ module.exports.modifyUserById = (req, res) => {
 module.exports.deleteUserById = (req, res) => {
     const id = req.params.id;
     const error = {};
-    console.log(req.params.id);
     
     User.findById(id)
         .then(user => {            
@@ -90,7 +95,7 @@ module.exports.deleteUserById = (req, res) => {
                 .then(deletedUser => {
                     res.status(200).json({
                         success: true,
-                        error
+                        deletedUser
                     })
                 })
                 .catch(err => {
@@ -122,5 +127,8 @@ module.exports.allUsers = async (req, res) => {
         });
     }
 
-    res.status(200).json(users);    
+    res.status(200).json({
+        success: true,
+        users
+    });    
 }

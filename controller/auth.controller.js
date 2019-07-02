@@ -15,8 +15,11 @@ module.exports.registUser = (req, res) => {
     User.findOne({ accountname: req.body.accountname.trim() })
         .then(user => {
             if(user) {
-                error.accountAxist = 'This account name already axist';
-                return res.status(409).json({ error });
+                error.accountExist = 'This account name already exist';
+                return res.status(409).json({
+                    success: false,
+                    error 
+                });
             }
 
             // Encode password with bcrypt before saving it to DB
@@ -31,13 +34,17 @@ module.exports.registUser = (req, res) => {
                     
                     newUser.save()
                         .then(newUser => {
-                            res
-                                .status(200)
-                                .json({ success: true, msg: `Create user ${newUser.username}`})
+                            res.status(200).json({ 
+                                success: true, 
+                                newUser
+                            });
                         })
                         .catch(err => {
                             error.failToRegister = 'Fail to register new user';
-                            res.status(400).json({ error });
+                            res.status(400).json({
+                                success: false,
+                                error 
+                            });
                         })
                 });
             });
@@ -54,14 +61,20 @@ module.exports.loginUser = (req, res, next) => {
     User.findOne({ accountname })
         .then(user => {
             if(!user) {
-                error.userNotFound = 'Wrong accountnamne or password';
-                return res.status(404).json({ error });
+                error.wrongAuth = 'Wrong accountnamne or password';
+                return res.status(404).json({
+                    success: false,
+                    error 
+                });
             }
 
             bcrypt.compare(password, user.password, (err, result) => {
                 if(result === false) {
-                    error.userNotFound = 'Wrong accountnamne or password';
-                    return res.status(404).json({ error });
+                    error.wrongAuth = 'Wrong accountnamne or password';
+                    return res.status(404).json({
+                        success: false,
+                        error 
+                    });
                 }
 
                 const token = jwt.sign({ userId: user._id }
@@ -70,6 +83,7 @@ module.exports.loginUser = (req, res, next) => {
                 );
 
                 res.status(200).json({ 
+                    success: true,                    
                     userId: user._id,
                     accountname: user.accountname,
                     username: user.username,
