@@ -29,9 +29,9 @@ router.get('/text', test);
 // @access  Public (change to Private later)
 
 router.post(
-    ''
-    , validateCreationInput
+    ''    
     , upload.single('image')
+    , validateCreationInput
     , createProduct);
 
 // @route   POST /api/products/all

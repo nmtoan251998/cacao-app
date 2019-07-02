@@ -10,7 +10,7 @@ module.exports.createProduct = (req, res) => {
         type: req.body.type.trim(),
         price: req.body.price.trim(),
         featured: req.body.featured.toString().trim() === 'true' ? true : false,
-    })
+    })    
 
     // if price field exists, then assign it to newProduct
     if(req.body.price) {
@@ -28,12 +28,11 @@ module.exports.createProduct = (req, res) => {
     }    
 
     newProduct.save()
-        .then(product => {
+        .then(product => {                  
             res.status(200).json({
                 success: true,
-                msg: 'Create new product',
-                fileUrl: 'http://192.168.0.1:5000/uploads/' + req.file.filename,
-            })
+                msg: 'Create new product'                
+            })            
         })
         .catch(err => {
             res.status(400).json({

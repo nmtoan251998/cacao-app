@@ -1,13 +1,12 @@
 const validator = require('validator');
 
 module.exports.validateCreationInput = (req, res, next) => {
-    const error = {};
+    const error = {};    
 
     const name = (req.body.name) ? req.body.name.toString().trim() : '';
     const type = (req.body.type) ? req.body.type.toString().trim() : '';
     const price = (req.body.price) ? req.body.price.toString().trim() : '';
     const description = (req.body.description) ? req.body.description.toString().trim() : '';
-    const image = (req.body.image) ? req.body.image.toString().trim() : '';
 
     // Product name cannot be empty
     if(validator.isEmpty(name)) {
@@ -52,9 +51,7 @@ module.exports.validateCreationInput = (req, res, next) => {
 }
 
 module.exports.validateModificationInput = (req, res, next) => {
-    const error = {};
-
-    console.log()
+    const error = {};    
 
     const name = (req.body.name) ? req.body.name.toString().trim() : '';
     const type = (req.body.type) ? req.body.type.toString().trim() : '';
