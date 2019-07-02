@@ -51,7 +51,9 @@ router.get(
 // @access  Private
 router.patch(
     '/:id'
-    , checkToken, protectedRoute, validateModifyInput
+    , checkToken
+    , protectedRoute
+    , validateModifyInput
     , modifyUserById);
 
 // @route   DELETE /api/users/:id
@@ -59,7 +61,8 @@ router.patch(
 // @access  Private
 router.delete(
     '/:id'
-    , checkToken, protectedRoute
+    , checkToken
+    , protectedRoute
     , deleteUserById);
 
 module.exports = router;

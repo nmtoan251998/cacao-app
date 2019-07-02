@@ -4,7 +4,8 @@ const secretOrKey = process.env.privateKey;
 
 const User = require('../model/users.model');
 
-module.exports.checkToken = (req, res, next) => {    
+module.exports.checkToken = (req, res, next) => {  
+    const error = {};
     /* 
     \\  slice the Bearer token generate by JWT
     \\  token format: 
@@ -15,9 +16,10 @@ module.exports.checkToken = (req, res, next) => {
     let token = req.headers['x-access-token'] || req.headers['authorization'];
 
     if(!token) {        
+        error.invalidToken = 'Invalid auth token';
         return res.status(401).json({
             success: false,            
-            msg: 'Auth token is not provided'
+            error
         })
     }
 
@@ -28,15 +30,23 @@ module.exports.checkToken = (req, res, next) => {
         
     if(token) {
         jwt.verify(token, secretOrKey, (err, payload) => {
-            if(err) {                                
+            if(err) {                        
+                error.invalidToken = 'Invalid auth token';
                 return res.status(401).json({
                     success: false,                    
-                    msg: 'Invalid auth token'
+                    error
                 });
             }
             
             User.findById(payload.userId)            
-                .then(user => {
+                .then(user => {                    
+                    if(!user) {                        
+                        error.invalidToken = 'Unauthorization';
+                        return res.status(401).json({
+                            success: false,
+                            error
+                        })
+                    }
                     // sign payload information into req.user
                     req.user = user;                        
                     next();
@@ -47,13 +57,14 @@ module.exports.checkToken = (req, res, next) => {
 
 module.exports.protectedRoute = (req, res, next) => {    
     const id = req.params.id;
+    const error = {};    
 
     if(req.user._id.toString() !== id) {                
+        error.unauthor = 'Unauthorization';
         return res.status(401).json({ 
             success: false,
-            msg: 'Unauthorized'
+            error
         });
-    }
-
+    }    
     next();
 }

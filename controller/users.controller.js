@@ -6,28 +6,23 @@ module.exports.test = (req, res) => {
     res.send('Test users API');
 }
 
-module.exports.user = (req, res) => {
+module.exports.user = (req, res) => {    
     const user = req.user;
-
-    if(!user) {
-        return res.status(401).json({
-            success: false,                    
-            msg: 'Invalid auth token'
-        })
-    }
     
     res.status(200).json(user);
 }
 
 module.exports.userById = (req, res) => {
     const id = req.params.id;
+    const error = {};
     
     User.findById(id)
         .then(user => {
             if(!user) {
+                error.noUser = 'No user found';
                 return res.status(404).json({ 
                     success: false, 
-                    msg: 'User not found' 
+                    error
                 });
             }
 
@@ -37,13 +32,16 @@ module.exports.userById = (req, res) => {
 
 module.exports.modifyUserById = (req, res) => {
     const id = req.params.id;
-
     const error = {};
 
     User.findById(id)
         .then(user => {
             if(!user) {
-                return res.status(404).json({ error: 'User not found' });
+                error.noUser = 'No user found';
+                return res.status(404).json({ 
+                    success: false,
+                    error
+                });
             }            
 
             // encode before saving to DB
@@ -59,12 +57,15 @@ module.exports.modifyUserById = (req, res) => {
                     User.findByIdAndUpdate(id, modifiedData)
                         .then(updatedUser => res.status(200).json({
                             success: true,
-                            msg: 'Updated user'
+                            error
                         }))
-                        .catch(err => res.status(400).json({
-                            success: false,
-                            error: 'Fail to update user information'
-                        }));
+                        .catch(err => {
+                            error.updateInfor = 'Failed to update user information';
+                            res.status(400).json({
+                                success: false,
+                                error
+                            })
+                        });
                 })                
             })                        
         })
@@ -72,30 +73,53 @@ module.exports.modifyUserById = (req, res) => {
 
 module.exports.deleteUserById = (req, res) => {
     const id = req.params.id;
+    const error = {};
+    console.log(req.params.id);
     
     User.findById(id)
-        .then(user => {
+        .then(user => {            
             if(!user) {
-                return res.status(404).json({ error: 'User not found' });
+                error.noUser = 'No user found';
+                return res.status(404).json({ 
+                    success: false,
+                    error
+                });
             }
             
             User.findByIdAndRemove(id)
-                .then(deleteedUser => res.status(200).json({
-                    success: true,
-                    msg: 'Deleted user'
-                }))
-                .catch(err => res.status(400).json({
-                    success: false,
-                    error: 'Fail to delete user information'
-                }));            
+                .then(deletedUser => {
+                    res.status(200).json({
+                        success: true,
+                        error
+                    })
+                })
+                .catch(err => {
+                    error.deleteUser = 'Failed to delete user';
+                    res.status(400).json({
+                        success: false,
+                        error
+                    })
+                });            
+        })
+        .catch(err => {
+            error.deleteUser = 'Failed to delete user';
+            res.status(400).json({
+                success: false,
+                error
+            })
         })
 }
 
 module.exports.allUsers = async (req, res) => {    
     const users = await User.find();
+    const error = {};
 
     if(!users) {
-        return res.status(404).json({ error: 'Users not found. '});
+        error.noUsers = 'No users found';
+        return res.status(404).json({ 
+            success: false,
+            error            
+        });
     }
 
     res.status(200).json(users);    
