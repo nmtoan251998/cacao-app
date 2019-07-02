@@ -5,6 +5,7 @@ module.exports.test = (req, res) => {
 }
 
 module.exports.createProduct = (req, res) => {
+    const error = {};
     const newProduct = new Product({
         name: req.body.name.trim(),
         type: req.body.type.trim(),
@@ -31,74 +32,83 @@ module.exports.createProduct = (req, res) => {
         .then(product => {                  
             res.status(200).json({
                 success: true,
-                msg: 'Create new product'                
+                error             
             })            
         })
         .catch(err => {
+            error.createNewProduct = 'Failed to create new product';
             res.status(400).json({
                 success: false,
-                msg: 'Error create new product'
+                error
             })
         })
 }
 
 module.exports.allProducts = (req, res) => {
+    const error = {};
+
     Product.find()
         .then(products => {
-            if(!products) {
+            if(!products.length) {                
+                error.noProducts = 'No products found';
                 return res.status(404).json({
                     success: false,
-                    msg: 'No products found'
+                    error
                 })
-            }
+            }                        
 
             res.status(200).json(products);
         })
         .catch(err => {
+            error.noProducts = 'No products found';
             res.status(404).json({
                 success: false,
-                msg: 'No products found'
+                error
             })
         })
 }
 
 module.exports.delById = (req, res) => {
+    const error = {};
     const id = req.params.id.toString().trim();
 
     Product.findByIdAndRemove(id)
         .then(product => {
             if(!product) {
+                error.noProduct = 'No product found';
                 return res.status(404).json({
                     success: false,
-                    msg: 'No product found'
+                    error
                 })
             }
 
             res.status(200).json({
                 success: true,
-                msg: 'Delete product'
+                error
             });
         })
         .catch(err => {
-            // console.log(err);
+            error.deleteProduct = 'Failed to delete product';
             res.status(400).json({
                 success: false,
-                msg: 'Error delete product'
+                error
             })
         })
 }
 
 module.exports.modifyById = (req, res) => {
+    const error = {};
     const id = req.params.id.toString().trim();    
 
     Product.findById(id)
         .then(product => {
             if(!product) {
+                error.noProduct = 'No product found';
                 return res.status(404).json({
                     success: false,
-                    msg: 'No product found'
+                    error
                 })
-            }            
+            }
 
             const modifiedProduct = {
                 name: req.body.name.trim(),
@@ -124,24 +134,24 @@ module.exports.modifyById = (req, res) => {
 
             Product.findByIdAndUpdate(id, modifiedProduct)
                 .then(newProduct => {
-                    res.status(200).json( {
+                    res.status(200).json({
                         success: true,
                         modifiedProduct
                     })
                 })
                 .catch(err => { 
-                    // console.log(err);                   
+                    error.modifyProduct = 'Failed to modify product';
                     res.status(400).json({
                         success: false,
-                        msg: 'Error modify product'
+                        error
                     })
                 })            
         })
         .catch(err => {    
-            // console.log(err);
+            error.modifyProduct = 'Failed to modify product';
             res.status(400).json({
                 success: false,
-                msg: 'Error modify product'
+                error
             })
         })
 }
