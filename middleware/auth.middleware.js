@@ -42,7 +42,7 @@ module.exports.checkToken = (req, res, next) => {
                 .then(user => {                    
                     if(!user) {                        
                         error.invalidToken = 'Unauthorization';
-                        return res.status(401).json({
+                        return res.status(403).json({
                             success: false,
                             error
                         })

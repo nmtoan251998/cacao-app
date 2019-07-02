@@ -22,19 +22,19 @@ const {
 // @route   GET /api/products/test
 // @desc    Test route
 // @access  Public
-router.get('/text', test);
+router.get('/test', test);
 
 // @route   POST /api/products
 // @desc    Mock api to create new product
-// @access  Public (change to Private later)
-
+// @access  Private
 router.post(
     ''        
+    , checkToken
     , upload.single('image')
     , validateCreationInput    
     , createProduct);
 
-// @route   POST /api/products/all
+// @route   GET /api/products/all
 // @desc    Get all currents products
 // @access  Public
 router.get('/all', allProducts);
