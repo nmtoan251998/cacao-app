@@ -29,9 +29,9 @@ router.get('/text', test);
 // @access  Public (change to Private later)
 
 router.post(
-    ''    
+    ''        
     , upload.single('image')
-    , validateCreationInput
+    , validateCreationInput    
     , createProduct);
 
 // @route   POST /api/products/all
@@ -43,8 +43,10 @@ router.get('/all', allProducts);
 // @desc    Modify product by id
 // @access  Private
 router.patch(
-    '/:id'
-    , checkToken, validateModificationInput
+    '/:id'    
+    , checkToken    
+    , upload.single('image')
+    , validateModificationInput    
     , modifyById);
 
 // @route   DELETE /api/products/:id

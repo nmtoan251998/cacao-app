@@ -25,7 +25,7 @@ module.exports.createProduct = (req, res) => {
     // if image field exists, then assign it to newProduct
     if(req.file) {
         newProduct.image = req.file.filename;            
-    }    
+    }
 
     newProduct.save()
         .then(product => {                  
@@ -97,7 +97,7 @@ module.exports.modifyById = (req, res) => {
                     success: false,
                     msg: 'No product found'
                 })
-            }
+            }            
 
             const modifiedProduct = {
                 name: req.body.name.trim(),
@@ -116,11 +116,19 @@ module.exports.modifyById = (req, res) => {
                 modifiedProduct.description = req.body.description.trim();
             }
 
+            // if image field exists, then assign it to newProduct
+            if(req.file) {
+                modifiedProduct.image = req.file.filename;            
+            }
+
             Product.findByIdAndUpdate(id, modifiedProduct)
                 .then(newProduct => {
-                    res.status(200).json(modifiedProduct)
+                    res.status(200).json( {
+                        success: true,
+                        modifiedProduct
+                    })
                 })
-                .catch(err => {
+                .catch(err => {                    
                     res.status(400).json({
                         success: false,
                         msg: 'Error modify product'
@@ -128,9 +136,10 @@ module.exports.modifyById = (req, res) => {
                 })            
         })
         .catch(err => {
+            console.log(err);
             res.status(400).json({
                 success: false,
-                msg: 'Cannot delete product'
+                msg: 'Cannot modify product'
             })
         })
 }

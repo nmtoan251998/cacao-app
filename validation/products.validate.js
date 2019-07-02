@@ -7,7 +7,8 @@ module.exports.validateCreationInput = (req, res, next) => {
     const type = (req.body.type) ? req.body.type.toString().trim() : '';
     const price = (req.body.price) ? req.body.price.toString().trim() : '';
     const description = (req.body.description) ? req.body.description.toString().trim() : '';
-
+    const featured = (req.body.featured) ? req.body.featured.toString().trim() : '';    
+    
     // Product name cannot be empty
     if(validator.isEmpty(name)) {
         error.emptyName = 'Name field cannot be empty';
@@ -16,6 +17,11 @@ module.exports.validateCreationInput = (req, res, next) => {
     // Product type cannot be empty
     if(validator.isEmpty(type)) {
         error.emptyType = 'Type field cannot be empty';
+    }
+
+    // Product feature cannot be empty
+    if(validator.isEmpty(featured)) {
+        error.emptyFeature = 'Feature field cannot be empty';
     }
 
     // check Product type if it exists
@@ -44,7 +50,7 @@ module.exports.validateCreationInput = (req, res, next) => {
     }
 
     if(Object.keys(error).length > 0) {
-        return res.status(400).json(error);
+        return res.status(400).json({ error });
     }
 
     next();
@@ -56,7 +62,8 @@ module.exports.validateModificationInput = (req, res, next) => {
     const name = (req.body.name) ? req.body.name.toString().trim() : '';
     const type = (req.body.type) ? req.body.type.toString().trim() : '';
     const price = (req.body.price) ? req.body.price.toString().trim() : '';
-    const description = (req.body.description) ? req.body.description.toString().trim() : '';    
+    const description = (req.body.description) ? req.body.description.toString().trim() : '';
+    const featured = (req.body.featured) ? req.body.featured.toString().trim() : '';    
 
     // Product name cannot be empty
     if(validator.isEmpty(name)) {
@@ -66,6 +73,11 @@ module.exports.validateModificationInput = (req, res, next) => {
     // Product type cannot be empty
     if(validator.isEmpty(type)) {
         error.emptyType = 'Type field cannot be empty';
+    }
+
+    // Product feature cannot be empty
+    if(validator.isEmpty(featured)) {
+        error.emptyFeature = 'Feature field cannot be empty';
     }
 
     // check Product type if it exists
