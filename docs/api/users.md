@@ -11,7 +11,12 @@ ___
 
 | Route             | Description                        | Access      |
 |:------------------|:-----------------------------------|:------------|
-| GET /api/users    | Get current user by payloaded info | Private     |       
+| GET /api/users    | Get current user by payloaded info | Private     |
+
+## Request 
+| Params                | Type              | Descipption                               |
+|:----------------------|:------------------|:------------------------------------------|
+| token                 | string            | JWT authenticated token send to headers   |
 
 ## Responses
 **application/json** *object*
