@@ -12,7 +12,7 @@ const {
 
 const {    
     checkToken,    
-} = require('../../middleware/auth.middleware');
+} = require('../../middleware/products.middleware');
 
 const {    
     validateCreationInput,

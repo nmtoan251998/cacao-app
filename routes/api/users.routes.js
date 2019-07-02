@@ -12,7 +12,7 @@ const {
 const {    
     checkToken,    
     protectedRoute,
-} = require('../../middleware/auth.middleware');
+} = require('../../middleware/users.middleware');
 
 const {
     validateModifyInput
