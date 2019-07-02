@@ -23,15 +23,14 @@ Status code: <span style="color: lightgreen">200</span> Success
 | success               | boolean           | Specify the request is successful         |
 | user                  | object            | JWT decoded information                   |
 
-
-Status code: <span style="color: lightcoral">401</span> Invalid token
+Status code: <span style="color: lightcoral">401</span> Unauthorized
 
 | Params                | Type              | Description                               |
 |:----------------------|:------------------|:------------------------------------------|
 | success               | boolean           | Specify the request is failed             |
 | error                 | object            | Errors container                          |
 
-Status code: <span style="color: lightcoral">401</span> Token is not provided
+Status code: <span style="color: lightcoral">403</span> Forbidden
 
 | Params                | Type              | Description                               |
 |:----------------------|:------------------|:------------------------------------------|
@@ -57,7 +56,7 @@ Status code: <span style="color: lightgreen">200</span> Success
 | username              | string            | User name                                 |
 
 
-Status code: <span style="color: lightcoral">404</span> Not found
+Status code: <span style="color: lightcoral">404</span> Not Found
 
 | Params                | Type              | Description                               |
 |:----------------------|:------------------|:------------------------------------------|
@@ -82,21 +81,7 @@ Status code: <span style="color: lightgreen">200</span> Success
 | success               | boolean           | Specify the request is successful         |
 | updatedUser           | object            | Modified information                      |
 
-Status code: <span style="color: lightcoral">400</span> Bad request
-
-| Params                | Type              | Description                               |
-|:----------------------|:------------------|:------------------------------------------|
-| success               | boolean           | Specify the request is failed             |
-| error                 | object            | Errors container                          |
-
-Status code: <span style="color: lightcoral">401</span> Invalid token
-
-| Params                | Type              | Description                               |
-|:----------------------|:------------------|:------------------------------------------|
-| success               | boolean           | Specify the request is failed             |
-| error                 | object            | Errors container                          |
-
-Status code: <span style="color: lightcoral">401</span> Token is not provided
+Status code: <span style="color: lightcoral">400</span> Bad Request
 
 | Params                | Type              | Description                               |
 |:----------------------|:------------------|:------------------------------------------|
@@ -110,7 +95,14 @@ Status code: <span style="color: lightcoral">401</span> Unauthorized
 | success               | boolean           | Specify the request is failed             |
 | error                 | object            | Errors container                          |
 
-Status code: <span style="color: lightcoral">404</span> Not found
+Status code: <span style="color: lightcoral">403</span> Forbidden
+
+| Params                | Type              | Description                               |
+|:----------------------|:------------------|:------------------------------------------|
+| success               | boolean           | Specify the request is failed             |
+| error                 | object            | Errors container                          |
+
+Status code: <span style="color: lightcoral">404</span> Not Found
 
 | Params                | Type              | Description                               |
 |:----------------------|:------------------|:------------------------------------------|
@@ -135,21 +127,7 @@ Status code: <span style="color: lightgreen">200</span> Success
 | success               | boolean           | Specify the request is successful         |
 | deletedUser           | object            | Deleted information                       |
 
-Status code: <span style="color: lightcoral">400</span> Bad request
-
-| Params                | Type              | Description                               |
-|:----------------------|:------------------|:------------------------------------------|
-| success               | boolean           | Specify the request is failed             |
-| error                 | object            | Errors container                          |
-
-Status code: <span style="color: lightcoral">401</span> Invalid token
-
-| Params                | Type              | Description                               |
-|:----------------------|:------------------|:------------------------------------------|
-| success               | boolean           | Specify the request is failed             |
-| error                 | object            | Errors container                          |
-
-Status code: <span style="color: lightcoral">401</span> Token is not provided
+Status code: <span style="color: lightcoral">400</span> Bad Request
 
 | Params                | Type              | Description                               |
 |:----------------------|:------------------|:------------------------------------------|
@@ -157,6 +135,13 @@ Status code: <span style="color: lightcoral">401</span> Token is not provided
 | error                 | object            | Errors container                          |
 
 Status code: <span style="color: lightcoral">401</span> Unauthorized
+
+| Params                | Type              | Description                               |
+|:----------------------|:------------------|:------------------------------------------|
+| success               | boolean           | Specify the request is failed             |
+| error                 | object            | Errors container                          |
+
+Status code: <span style="color: lightcoral">403</span> Forbidden
 
 | Params                | Type              | Description                               |
 |:----------------------|:------------------|:------------------------------------------|
@@ -188,21 +173,21 @@ Status code: <span style="color: lightgreen">200</span> Success
 | success               | boolean           | Specify the request is successful         |
 | users                 | [object]          | All users                                 |
 
-Status code: <span style="color: lightcoral">401</span> Invalid token
+Status code: <span style="color: lightcoral">401</span> Unauthorized
 
 | Params                | Type              | Description                               |
 |:----------------------|:------------------|:------------------------------------------|
 | success               | boolean           | Specify the request is failed             |
 | error                 | object            | Errors container                          |
 
-Status code: <span style="color: lightcoral">401</span> Token is not provided
+Status code: <span style="color: lightcoral">403</span> Forbidden
 
 | Params                | Type              | Description                               |
 |:----------------------|:------------------|:------------------------------------------|
 | success               | boolean           | Specify the request is failed             |
 | error                 | object            | Errors container                          |
 
-Status code: <span style="color: lightcoral">404</span> Not found
+Status code: <span style="color: lightcoral">404</span> Not Found
 
 | Params                | Type              | Description                               |
 |:----------------------|:------------------|:------------------------------------------|

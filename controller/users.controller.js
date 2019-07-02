@@ -7,7 +7,7 @@ module.exports.test = (req, res) => {
 }
 
 module.exports.user = (req, res) => {    
-    const user = req.user;    
+    const user = req.user;        
     
     res.status(200).json({ 
         success: true,        
@@ -119,7 +119,7 @@ module.exports.allUsers = async (req, res) => {
     const users = await User.find();
     const error = {};
 
-    if(!users) {
+    if(!users.length) {
         error.noUsers = 'No users found';
         return res.status(404).json({ 
             success: false,

@@ -61,7 +61,7 @@ module.exports.protectedRoute = (req, res, next) => {
 
     if(req.user._id.toString() !== id) {                
         error.unauthor = 'Unauthorization';
-        return res.status(401).json({ 
+        return res.status(403).json({ 
             success: false,
             error
         });
