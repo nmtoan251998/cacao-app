@@ -9,6 +9,13 @@ ___
 |:---------------------|:-----------------------------------|:------------|
 | POST /auth/register  | Create new user account            | Public      | 
       
+## Request 
+| Params                | Type              | Validations                               |
+|:----------------------|:------------------|:------------------------------------------|
+| username              | string            | much be required                          |
+| accountname           | string            | much be required & doesn't exist before   |
+| password              | string            | much be required & have 8 to 12 words     |
+| password2             | string            | much match with password                  |
 
 ## Responses
 **application/json** *object*
@@ -37,11 +44,18 @@ Status code: <span style="color: lightcoral">409</span> Conflict
 ___
 ## 2.POST /auth/login
 
+| Params                | Type              | Validations                               |
+|:----------------------|:------------------|:------------------------------------------|
+| accountname           | string            | much alreally in database                 |
+| password              | string            | much match with accountname's password    |            
+
 <a name="auth-post-login" hidden></a>
 
 | Route             | Description                        | Access      |
 |:------------------|:-----------------------------------|:------------|
 | POST /auth/login  | Login user / Sign JWT              | Public      | 
+
+##Request 
 
 ## Responses
 **application/json** *object*
