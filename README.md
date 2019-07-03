@@ -44,6 +44,16 @@ _Running both app client and server in development:_
 $ npm run dev
 ```
 
+## Contributing
+* Checkout a branch from master with name:  
+  - If it's a feature: feature/some-feature
+  - If it's an improvement: improvement/some-improvement
+  - If it's a documentation: documentation/some-documentation
+  - If it's a bug fix: fix/issue-< number>
+* Push branch and create a Pull-request
+* Wait for approval and merge/deploy
+
+
 ## Group working
 ### Frontend remote folder
 [https://github.com/nmtoan251998/cacao-app-view.git](https://github.com/nmtoan251998/cacao-app-view.git)
