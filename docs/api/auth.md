@@ -9,7 +9,38 @@ ___
 |:---------------------|:-----------------------------------|:------------|
 | POST /auth/register  | Create new user account            | Public      | 
       
-
+## Params
+1. _id 
+    - type: string
+    - required: true
+    - regexp: mongoose_id
+2. username
+    - type: string
+    - required: true
+    - regexp: 
+        1. length: min: Number - max: Number
+        2. startWith: [a-z] || [A-Z]
+3. accountname
+    - type: string
+    - required: true
+    - regexp: 
+        1. length: min: 4 - max: 20
+        2. startWith: [a-z] || [A-Z]
+        3. validate: have not been in database before
+4. password
+    - type: string
+    - required: true
+    - regexp: 
+        1. length: min: 8 - max: 12
+        2. startWith: [a-z] || [A-Z]
+5. password2 
+    - type: string
+    - required: true
+    - regexp: 
+        1. length: min: Number - max: Number
+        2. startWith: [a-z] || [A-Z]
+        3. validate: must to match with password
+        
 ## Responses
 **application/json** *object*
 
@@ -42,6 +73,23 @@ ___
 | Route             | Description                        | Access      |
 |:------------------|:-----------------------------------|:------------|
 | POST /auth/login  | Login user / Sign JWT              | Public      | 
+
+## Params
+1. accountname
+    - type: string
+    - required: true
+    - regexp: 
+        1. length: min: 4 - max: 20
+        2. startWith: [a-z] || [A-Z]
+        3. validate: have been in database before
+
+2. password
+    - type: string
+    - required: true
+    - regexp: 
+        1. length: min: 8 - max: 12
+        2. startWith: [a-z] || [A-Z]
+        3. validate: must to match 
 
 ## Responses
 **application/json** *object*
