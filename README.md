@@ -44,6 +44,11 @@ _Running both app client and server in development:_
 $ npm run dev
 ```
 
+_Running test cases:_
+```
+$ npm run test
+```
+
 ## Contributing
 * Checkout a branch from master with name:  
   - If it's a feature: feature/some-feature
