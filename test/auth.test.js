@@ -5,166 +5,364 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../app');
 const expect = chai.expect;
-
-const User = require('../model/users.model');
+const httpStatus = require('http-status');
 
 chai.use(chaiHttp);
 
-describe('User Authentication', () => {        
+const User = require('../model/users.model');
 
-    describe('Registration', () => {         
-        it('Should return 409 when account already exist', (done) => {
-            // existAccount
-            const newUser = {
-                username: 'Test',
-                accountname: 'test',
-                password: '123456',
-                password2: '123456',
+describe('Authentication API', () => {
+    const user = {};
+    
+    beforeEach( async () => {                            
+        user.dbUser = {
+            accountname: 'nmtoan',
+            password: '12345678',    
+            username: 'Minh Toàn',
+        };
+
+        user.valid = {
+            accountname: 'tester',
+            password: '12345678',
+            password2: '12345678',
+            username: 'Test',
+        };        
+    
+        await User.deleteMany({}); 
+        await User.create(user.dbUser);        
+    })    
+    
+    describe('POST /auth/register', () => {                                 
+        it('Should return 409 when account already exists', (done) => {            
+            const conflictUser = {
+                ...user.dbUser,
+                password2: '12345678'
             }
-
             chai.request(server)
                 .post('/auth/register')
-                .send(newUser)
-                .then(res => {                                        
-                    expect(res).to.have.status(409);                    
+                .send(conflictUser)                
+                .then(res => {                    
+                    expect(res).to.have.status(httpStatus.CONFLICT);   
                     expect(res.body.error).to.be.a('object');
-                    expect(res.body.error.length).to.not.equal(0);                    
-                    expect(res.body.success).to.be.equal(false);
-                    expect(res.body.error.accountExist).to.be.equal('This account name already exist');                    
-                    done();
-                })
-                .catch(err => {
-                    done(err);               
-                })
-        });                
-
-        it('Should return 400 when validations failed', (done) => {
-            // mock invalid user
-            const invalidUser = {
-                username: '',
-                accountname: 'testtest',
-                password: '123456',
-                password2: '123456',
-            }
-
-            chai.request(server)
-                .post('/auth/register')
-                .send(invalidUser)
-                .then(res => {                                        
-                    expect(res).to.have.status(400);
-                    expect(res.body.error).to.be.a('object');
-                    expect(res.body.error.length).to.not.equal(0);                    
+                    expect(res.body.error.accountExist).to.include('This accountname already exist');
                     expect(res.body.success).to.be.equal(false);                    
                     done();
                 })
                 .catch(err => {
                     done(err);               
-                })
-        });                
-
-        it('Should return 200 when a new user is created', (done) => {
-            // mock valid user
-            const newUser = {
-                username: 'Test',
-                accountname: 'test',
-                password: '123456',
-                password2: '123456',
-            }
-
-            // before creating user, check for its existence
-            User.findOne({ accountname: 'test' })
-            .then(user => {                    
-                if(user) {                        
-                    User.findByIdAndRemove(user.id)
-                        .then((user) => {                            
-                            chai.request(server)
-                                .post('/auth/register')
-                                .send(newUser)
-                                .then(res => {                    
-                                    expect(res).to.have.status(200);                                                       
-                                    expect(res.body.success).to.be.equal(true);
-                                    expect(res.body.newUser).to.be.a('object');
-                                    done();
-                                })
-                                .catch(err => {
-                                    done(err);               
-                                })
-                        })
-                        .catch((err) => console.log('Error removing for testing'));
-                }
-            })                        
-        });                
-    })
-
-    describe('Login', () => {
-        it('It should return 404 if account or password is wrong', (done) => {
-            // Mock invalid user
-            const invalidUser = {
-                accountname: 'invalidUser',
-                password: '123456'
-            }            
-
-            chai.request(server)
-                .post('/auth/login')
-                .send(invalidUser)
-                .then((res) => {                             
-                    expect(res).to.have.status(404);
-                    expect(res.body.error).to.be.a('object');
-                    expect(res.body.error.length).to.not.equal(0);
-                    expect(res.body.success).to.be.equal(false);
-                    expect(res.body.error.wrongAccount).to.be.equal('Wrong accountname or password');
-                    done();
-                })
-                .catch(err => {
-                    done(err);
-                })
+                });
         });
-
-        it('Should return 400 when validation failed', (done) => {
-            // mock unvalid user
-            const invalidUser = {                
+        
+        it('Should return 400 when accountname field is empty', (done) => {
+            const invalidUser = {
+                ...user.valid,
                 accountname: '',
-                password: '123456',                
             }
-
             chai.request(server)
-                .post('/auth/login')
+                .post('/auth/register')
                 .send(invalidUser)
                 .then(res => {                    
-                    expect(res).to.have.status(400);
-                    expect(res.body.error).to.be.a('object');
-                    expect(res.body.error.length).to.not.equal(0);                    
+                    expect(res).to.have.status(httpStatus.BAD_REQUEST);   
+                    expect(res.body.error).to.be.a('object');                    
                     expect(res.body.success).to.be.equal(false);                    
                     done();
                 })
                 .catch(err => {
-                    done();               
+                    done(err);               
+                });
+        });
+        
+        it('Should return 400 when accountname field starts with number', (done) => {
+            const invalidUser = {
+                ...user.valid,
+                accountname: '09tester',
+            }         
+            chai.request(server)
+                .post('/auth/register')
+                .send(invalidUser)
+                .then(res => {                    
+                    expect(res).to.have.status(httpStatus.BAD_REQUEST);   
+                    expect(res.body.error).to.be.a('object');                    
+                    expect(res.body.success).to.be.equal(false);                    
+                    done();
                 })
+                .catch(err => {
+                    done(err);               
+                });
+        });
+        
+        it('Should return 400 when accountname field below the minimum length validation', (done) => {
+            const invalidUser = {
+                ...user.valid,
+                accountname: 'test',
+            }         
+            chai.request(server)
+                .post('/auth/register')
+                .send(invalidUser)
+                .then(res => {                    
+                    expect(res).to.have.status(httpStatus.BAD_REQUEST);   
+                    expect(res.body.error).to.be.a('object');                    
+                    expect(res.body.success).to.be.equal(false);                    
+                    done();
+                })
+                .catch(err => {
+                    done(err);               
+                });
         });
 
-        it('It should return 200 when user successfully log in', (done) => {
-            // Mock valid user
-            const validUser = {
-                accountname: 'test',
-                password: '123456'
-            }
+        it('Should return 400 when accountname field above the maximum length validation', (done) => {
+            const invalidUser = {
+                ...user.valid,
+                accountname: 'testwithabove20characterslength',
+            }         
+            chai.request(server)
+                .post('/auth/register')
+                .send(invalidUser)
+                .then(res => {                    
+                    expect(res).to.have.status(httpStatus.BAD_REQUEST);   
+                    expect(res.body.error).to.be.a('object');                    
+                    expect(res.body.success).to.be.equal(false);                    
+                    done();
+                })
+                .catch(err => {
+                    done(err);               
+                });
+        });
+        
+        it('Should return 400 when username field is empty', (done) => {
+            const invalidUser = {
+                ...user.valid,
+                username: ' ',
+            }         
+            chai.request(server)
+                .post('/auth/register')
+                .send(invalidUser)
+                .then(res => {                    
+                    expect(res).to.have.status(httpStatus.BAD_REQUEST);   
+                    expect(res.body.error).to.be.a('object');                    
+                    expect(res.body.success).to.be.equal(false);                    
+                    done();
+                })
+                .catch(err => {
+                    done(err);               
+                });
+        });
+        
+        it('Should return 400 when username field below the minimum length validation', (done) => {
+            const invalidUser = {
+                ...user.valid,
+                username: 't',
+            }         
+            chai.request(server)
+                .post('/auth/register')
+                .send(invalidUser)
+                .then(res => {                    
+                    expect(res).to.have.status(httpStatus.BAD_REQUEST);   
+                    expect(res.body.error).to.be.a('object');                    
+                    expect(res.body.success).to.be.equal(false);                    
+                    done();
+                })
+                .catch(err => {
+                    done(err);               
+                });
+        });
 
+        it('Should return 400 when username field above the maximum length validation', (done) => {
+            const invalidUser = {
+                ...user.valid,
+                username: 'testwithabove30characterslengthtestwithabove30characterslength',
+            }         
+            chai.request(server)
+                .post('/auth/register')
+                .send(invalidUser)
+                .then(res => {                    
+                    expect(res).to.have.status(httpStatus.BAD_REQUEST);   
+                    expect(res.body.error).to.be.a('object');                    
+                    expect(res.body.success).to.be.equal(false);                    
+                    done();
+                })
+                .catch(err => {
+                    done(err);               
+                });
+        });
+        
+        it('Should return 400 when password field is empty', (done) => {
+            const invalidUser = {
+                ...user.valid,
+                password: '',
+                password2: '',
+            }         
+            chai.request(server)
+                .post('/auth/register')
+                .send(invalidUser)
+                .then(res => {                        
+                    expect(res).to.have.status(httpStatus.BAD_REQUEST);   
+                    expect(res.body.error).to.be.a('object');                    
+                    expect(res.body.success).to.be.equal(false);                    
+                    done();
+                })
+                .catch(err => {
+                    done(err);               
+                });
+        });        
+        
+        it('Should return 400 when password field below the minimum length validation', (done) => {
+            const invalidUser = {
+                ...user.valid,
+                password: '123456',
+                password2: '123456',
+            }  
+            chai.request(server)
+                .post('/auth/register')
+                .send(invalidUser)
+                .then(res => {                       
+                    expect(res).to.have.status(httpStatus.BAD_REQUEST);   
+                    expect(res.body.error).to.be.a('object');                    
+                    expect(res.body.success).to.be.equal(false);                    
+                    done();
+                })
+                .catch(err => {
+                    done(err);               
+                });
+        });
+
+        it('Should return 400 when password field above the maximum length validation', (done) => {
+            const invalidUser = {
+                ...user.valid,
+                password: '12345678901234567890',
+                password2: '12345678901234567890',
+            }  
+            chai.request(server)
+                .post('/auth/register')
+                .send(invalidUser)
+                .then(res => {                       
+                    expect(res).to.have.status(httpStatus.BAD_REQUEST);   
+                    expect(res.body.error).to.be.a('object');                    
+                    expect(res.body.success).to.be.equal(false);                    
+                    done();
+                })
+                .catch(err => {
+                    done(err);               
+                });
+        });
+
+        it('Should return 400 when password2 field does not match password field', (done) => {
+            const invalidUser = {
+                ...user.valid,
+                password: '12345678',
+                password2: '123456789',
+            }  
+            chai.request(server)
+                .post('/auth/register')
+                .send(invalidUser)
+                .then(res => {                       
+                    expect(res).to.have.status(httpStatus.BAD_REQUEST);   
+                    expect(res.body.error).to.be.a('object');                    
+                    expect(res.body.success).to.be.equal(false);                    
+                    done();
+                })
+                .catch(err => {
+                    done(err);               
+                });
+        });
+
+        it('Should return 200 when new user is registered', (done) => {            
+            chai.request(server)
+                .post('/auth/register')
+                .send(user.valid)                
+                .then(res => {                       
+                    expect(res).to.have.status(httpStatus.OK);   
+                    expect(res.body.newUser).to.be.a('object');                    
+                    expect(res.body.success).to.be.equal(true);
+                    done();
+                })
+                .catch(err => {
+                    done(err);               
+                });
+        });
+    });
+
+    describe('POST /auth/login', () => {             
+        it('Should return 200 when a user is loged in', (done) => {                        
+            const loginUser = {
+                accountname: user.dbUser.accountname,
+                password: user.dbUser.password
+            };
+            
             chai.request(server)
                 .post('/auth/login')
-                .send(validUser)
-                .then((res) => {                    
-                    expect(res).to.have.status(200);
-                    expect(res.body.success).to.be.equal(true);
+                .send(loginUser)
+                .then(res => {                       
+                    expect(res).to.have.status(httpStatus.OK); 
                     expect(res.body.token).to.exist;
                     expect(res.body.userId).to.exist;
                     expect(res.body.username).to.exist;
-                    expect(res.body.accountname).to.be.equal(validUser.accountname);                    
-                    expect(res.body).to.be.a('object');                                        
+                    expect(res.body.success).to.be.true;
                     done();
                 })
                 .catch(err => {
-                    done(err);                    
-                })
+                    done(err)
+                });
         });
-    })
-})
+
+        it('Should return 404 when loged in account is wrong', (done) => {                        
+            const loginUser = {
+                accountname: user.dbUser.accountname,
+                password: user.dbUser.password +'w0w',
+            };
+            
+            chai.request(server)
+                .post('/auth/login')
+                .send(loginUser)
+                .then(res => {                          
+                    expect(res).to.have.status(httpStatus.NOT_FOUND); 
+                    expect(res.body.error).to.be.a('object');
+                    expect(res.body.success).to.be.false;
+                    done();
+                })
+                .catch(err => {
+                    done(err)
+                });
+        });
+
+        it('Should return 400 when accountname field is empty', (done) => {                        
+            const loginUser = {
+                accountname: '',
+                password: user.dbUser.password,
+            };
+            
+            chai.request(server)
+                .post('/auth/login')
+                .send(loginUser)
+                .then(res => {                          
+                    expect(res).to.have.status(httpStatus.BAD_REQUEST); 
+                    expect(res.body.error).to.be.a('object');
+                    expect(res.body.success).to.be.false;
+                    done();
+                })
+                .catch(err => {
+                    done(err)
+                });
+        });
+
+        it('Should return 400 when password field is empty', (done) => {                        
+            const loginUser = {
+                accountname: user.dbUser.accountname,
+                password: '',
+            };
+            
+            chai.request(server)
+                .post('/auth/login')
+                .send(loginUser)
+                .then(res => {                          
+                    expect(res).to.have.status(httpStatus.BAD_REQUEST); 
+                    expect(res.body.error).to.be.a('object');
+                    expect(res.body.success).to.be.false;
+                    done();
+                })
+                .catch(err => {
+                    done(err)
+                });
+        });
+    });
+});
