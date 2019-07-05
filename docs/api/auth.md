@@ -12,30 +12,30 @@ ___
       
 ## Params
 1. _id
-    - type: string
-    - required: true
-    - regexp: mongoose_id
+    - type: mongoose_id
+    - required: true    
 2. username
     - type: string
     - required: true
-    - regexp: length: min: 1
+    - regexp: 
+        1. length: min: 1
 3. accountname
     - type: string
     - required: true
     - regexp: 
         1. length: min: 4 - max: 20
-        2. have not been exist in database before
+        2. unique: true
 4. password
     - type: string
     - required: true
-    - regexp: length: min: 8 - max: 12
+    - regexp: 
+        1. length: min: 8 - max: 128
 
 5. password2
     - type: string
     - required: true
-    - regexp: 
-        1. length: min: 8 - max: 12
-        2. must match with password
+    - regexp:        
+        1. must match with password
 
 ## Responses
 **application/json** *object*
