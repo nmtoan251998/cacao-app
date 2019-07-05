@@ -33,10 +33,9 @@ router.get(
 
 // @route   GET /api/users/all
 // @desc    Get all users
-// @access  Private
+// @access  Public
 router.get(
-    '/all'    
-    // , checkToken
+    '/all'        
     , allUsers);
 
 // @route   GET /api/users/:id
@@ -48,7 +47,7 @@ router.get(
 
 // @route   PATCH /api/users/:id
 // @desc    Modify user by id
-// @access  Private
+// @access  Private (Protected)
 router.patch(
     '/:id'
     , checkToken
@@ -58,7 +57,7 @@ router.patch(
 
 // @route   DELETE /api/users/:id
 // @desc    Delete user by id
-// @access  Private
+// @access  Private (Protected)
 router.delete(
     '/:id'
     , checkToken
