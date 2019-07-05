@@ -2,6 +2,7 @@
 - [POST /auth/login](#auth-post-login)
 - [POST /auth/register](#auth-post-register)
 ___
+
 ## 1.POST /auth/register
 <a name="auth-post-register" hidden></a>
 
@@ -9,6 +10,32 @@ ___
 |:---------------------|:-----------------------------------|:------------|
 | POST /auth/register  | Create new user account            | Public      | 
       
+## Params
+1. _id
+    - type: string
+    - required: true
+    - regexp: mongoose_id
+2. username
+    - type: string
+    - required: true
+    - regexp: length: min: 1
+3. accountname
+    - type: string
+    - required: true
+    - regexp: 
+        1. length: min: 4 - max: 20
+        2. have not been exist in database before
+4. password
+    - type: string
+    - required: true
+    - regexp: length: min: 8 - max: 12
+
+5. password2
+    - type: string
+    - required: true
+    - regexp: 
+        1. length: min: 8 - max: 12
+        2. must match with password
 
 ## Responses
 **application/json** *object*
@@ -42,6 +69,17 @@ ___
 | Route             | Description                        | Access      |
 |:------------------|:-----------------------------------|:------------|
 | POST /auth/login  | Login user / Sign JWT              | Public      | 
+
+## Params
+1. accountname
+    - type: string
+    - required: true
+    - regexp: already exist in database
+
+2. password
+    - typeL string
+    - required: true
+    - regexp: must match with accountname's password
 
 ## Responses
 **application/json** *object*
