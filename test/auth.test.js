@@ -45,7 +45,7 @@ describe('Authentication API', () => {
                     expect(res).to.have.status(httpStatus.CONFLICT);   
                     expect(res.body.error).to.be.a('object');
                     expect(res.body.error.accountExist).to.include('This accountname already exist');
-                    expect(res.body.success).to.be.equal(false);                    
+                    expect(res.body.success).to.be.false;                    
                     done();
                 })
                 .catch(err => {
@@ -64,7 +64,7 @@ describe('Authentication API', () => {
                 .then(res => {                    
                     expect(res).to.have.status(httpStatus.BAD_REQUEST);   
                     expect(res.body.error).to.be.a('object');                    
-                    expect(res.body.success).to.be.equal(false);                    
+                    expect(res.body.success).to.be.false;
                     done();
                 })
                 .catch(err => {
@@ -83,7 +83,7 @@ describe('Authentication API', () => {
                 .then(res => {                    
                     expect(res).to.have.status(httpStatus.BAD_REQUEST);   
                     expect(res.body.error).to.be.a('object');                    
-                    expect(res.body.success).to.be.equal(false);                    
+                    expect(res.body.success).to.be.false;                    
                     done();
                 })
                 .catch(err => {
@@ -102,7 +102,7 @@ describe('Authentication API', () => {
                 .then(res => {                    
                     expect(res).to.have.status(httpStatus.BAD_REQUEST);   
                     expect(res.body.error).to.be.a('object');                    
-                    expect(res.body.success).to.be.equal(false);                    
+                    expect(res.body.success).to.be.false;                    
                     done();
                 })
                 .catch(err => {
@@ -121,7 +121,7 @@ describe('Authentication API', () => {
                 .then(res => {                    
                     expect(res).to.have.status(httpStatus.BAD_REQUEST);   
                     expect(res.body.error).to.be.a('object');                    
-                    expect(res.body.success).to.be.equal(false);                    
+                    expect(res.body.success).to.be.false;                    
                     done();
                 })
                 .catch(err => {
@@ -140,7 +140,7 @@ describe('Authentication API', () => {
                 .then(res => {                    
                     expect(res).to.have.status(httpStatus.BAD_REQUEST);   
                     expect(res.body.error).to.be.a('object');                    
-                    expect(res.body.success).to.be.equal(false);                    
+                    expect(res.body.success).to.be.false;                    
                     done();
                 })
                 .catch(err => {
@@ -159,7 +159,7 @@ describe('Authentication API', () => {
                 .then(res => {                    
                     expect(res).to.have.status(httpStatus.BAD_REQUEST);   
                     expect(res.body.error).to.be.a('object');                    
-                    expect(res.body.success).to.be.equal(false);                    
+                    expect(res.body.success).to.be.false;                    
                     done();
                 })
                 .catch(err => {
@@ -178,7 +178,7 @@ describe('Authentication API', () => {
                 .then(res => {                    
                     expect(res).to.have.status(httpStatus.BAD_REQUEST);   
                     expect(res.body.error).to.be.a('object');                    
-                    expect(res.body.success).to.be.equal(false);                    
+                    expect(res.body.success).to.be.false;                    
                     done();
                 })
                 .catch(err => {
@@ -198,7 +198,7 @@ describe('Authentication API', () => {
                 .then(res => {                        
                     expect(res).to.have.status(httpStatus.BAD_REQUEST);   
                     expect(res.body.error).to.be.a('object');                    
-                    expect(res.body.success).to.be.equal(false);                    
+                    expect(res.body.success).to.be.false;                    
                     done();
                 })
                 .catch(err => {
@@ -218,7 +218,7 @@ describe('Authentication API', () => {
                 .then(res => {                       
                     expect(res).to.have.status(httpStatus.BAD_REQUEST);   
                     expect(res.body.error).to.be.a('object');                    
-                    expect(res.body.success).to.be.equal(false);                    
+                    expect(res.body.success).to.be.false;                    
                     done();
                 })
                 .catch(err => {
@@ -238,7 +238,7 @@ describe('Authentication API', () => {
                 .then(res => {                       
                     expect(res).to.have.status(httpStatus.BAD_REQUEST);   
                     expect(res.body.error).to.be.a('object');                    
-                    expect(res.body.success).to.be.equal(false);                    
+                    expect(res.body.success).to.be.false;                    
                     done();
                 })
                 .catch(err => {
@@ -258,7 +258,7 @@ describe('Authentication API', () => {
                 .then(res => {                       
                     expect(res).to.have.status(httpStatus.BAD_REQUEST);   
                     expect(res.body.error).to.be.a('object');                    
-                    expect(res.body.success).to.be.equal(false);                    
+                    expect(res.body.success).to.be.false;                    
                     done();
                 })
                 .catch(err => {
