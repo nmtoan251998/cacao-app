@@ -156,7 +156,7 @@ describe('Authentication API', () => {
             chai.request(server)
                 .post('/auth/register')
                 .send(invalidUser)
-                .then(res => {                    
+                .then(res => {
                     expect(res).to.have.status(httpStatus.BAD_REQUEST);   
                     expect(res.body.error).to.be.a('object');                    
                     expect(res.body.success).to.be.false;                    
@@ -170,7 +170,7 @@ describe('Authentication API', () => {
         it('Should return 400 when username field above the maximum length validation', (done) => {
             const invalidUser = {
                 ...user.valid,
-                username: 'testwithabove30characterslengthtestwithabove30characterslength',
+                username: 'testwithabove20characterslength',
             }         
             chai.request(server)
                 .post('/auth/register')

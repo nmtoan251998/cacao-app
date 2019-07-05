@@ -10,19 +10,20 @@ const userSchema = mongoose.Schema({
         unique: true,
         trim: true,
         match: /[a-zA-Z]/,
-        minlength: 6,
+        minlength: 4,
         maxlength: 20
     },
     password: {
         type: String,
         required: true,
-        minlength: 6,
+        minlength: 8,
         maxlength: 128,
         trim: true
     },
     username: {
         type: String,
         required: true,
+        minlength: 1,        
         trim: true
     },
     createDate: {
