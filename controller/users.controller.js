@@ -50,31 +50,27 @@ module.exports.modifyUserById = (req, res) => {
                 });
             }            
 
-            // encode before saving to DB
-            bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(req.body.password, salt, (err, encoded) => {
-                    const modifiedData = {
-                        _id: user._id,
-                        accountname: user.accountname,
-                        username: req.body.username,                
-                        password: encoded
-                    };
-    
-                    User.findByIdAndUpdate(id, modifiedData)
-                        .then(updatedUser => res.status(200).json({
-                            success: true,
-                            updatedUser                            
-                        }))
-                        .catch(err => {
-                            error.updateInfor = 'Failed to update user information';
-                            res.status(400).json({
-                                success: false,
-                                error
-                            })
-                        });
-                })                
-            })                        
-        })
+            const modifiedData = {
+                _id: user._id,
+                accountname: user.accountname,
+                username: req.body.username,                
+                password: req.body.password,
+            };
+
+            User.findByIdAndUpdate(id, modifiedData)
+                .then(updatedUser => 
+                    res.status(200).json({
+                        success: true,
+                        updatedUser: modifiedData                           
+                }))
+                .catch(err => {
+                    error.updateInfor = 'Failed to update user information';
+                    res.status(400).json({
+                        success: false,
+                        error
+                    })
+                });
+        })            
 }
 
 module.exports.deleteUserById = (req, res) => {

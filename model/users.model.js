@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const secretOrKey = process.env.privateKey || 'privateprivateprivate';
-
 const userSchema = mongoose.Schema({
     accountname: {
         type: String,
@@ -61,6 +59,5 @@ userSchema.method({
         });
     }
 })
-
 
 module.exports = mongoose.model('users', userSchema)
