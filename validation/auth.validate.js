@@ -10,7 +10,7 @@ module.exports.validateRegisterInput = (req, res, next) => {
 
     const REGEX = {
         startWithWord: /[^0-9]\w+/,
-    }    
+    }
 
     // username cannot be empty
     if(validator.isEmpty(username)) {

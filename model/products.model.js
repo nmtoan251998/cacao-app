@@ -4,6 +4,7 @@ const productSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
+        uniqe: true,
         trim: true,
         minlength: 1,
         maxlength: 100,
@@ -12,9 +13,7 @@ const productSchema = mongoose.Schema({
     type: {
         type: String,
         required: true,
-        trim: true,
-        minlength: 1,
-        maxlength: 10,
+        trim: true,        
         match: /drink|food/,
     },
     price: {
@@ -25,7 +24,6 @@ const productSchema = mongoose.Schema({
     description: {
         type: String,
         trim: true,
-        minlength: 50,
         maxlength: 150,
     },
     image: {

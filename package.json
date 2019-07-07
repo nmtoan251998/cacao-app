@@ -8,7 +8,8 @@
     "view-install": "npm install --prefix cacao-app-view",
     "view": "npm start --prefix cacao-app-view",
     "dev": "concurrently \"npm run server\" \"npm run view\"",
-    "test": "nyc --reporter=text mocha && mocha --timeout 10000"
+    "test": "nyc --reporter=text mocha && mocha --timeout 10000",
+    "test-single": "mocha $1 --timeout 10000"
   },
   "dependencies": {
     "bcrypt": "^3.0.6",

@@ -3,9 +3,10 @@ process.env.NODE_ENV = 'test';
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../app');
-const expect = chai.expect;
 const httpStatus = require('http-status');
+
+const expect = chai.expect;
+const server = require('../app');
 
 chai.use(chaiHttp);
 

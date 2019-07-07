@@ -1,15 +1,13 @@
-/*
-TODO: update document for model/username minlength: 1 -> 2
-*/
-
 //During the test the env variable is set to test
 process.env.NODE_ENV = 'test';
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../app');
-const expect = chai.expect;
 const httpStatus = require('http-status');
+const mongoose = require('mongoose');
+
+const expect = chai.expect;
+const server = require('../app');
 
 chai.use(chaiHttp);
 
@@ -32,15 +30,15 @@ describe('Users API', () => {
             username: 'Tester2',
         };
 
-        await Promise.all([
-            User.deleteMany({}),
+        await Promise.all([     
+            User.deleteMany({}),       
             User.create(tester1),
             User.create(tester2),            
         ])
         .then(results => {
             userId1 = results[1]['_id'];            
             userId2 = results[2]['_id'];  
-            invalidUserId = require('mongoose').Types.ObjectId
+            invalidUserId = mongoose.Types.ObjectId
                                     (
                                         userId1                                        
                                         .toString()
@@ -50,7 +48,7 @@ describe('Users API', () => {
         .catch(err => {
             console.log(err);
         });
-    });            
+    });               
 
     function login(user, cb) {
         chai.request(server)
@@ -68,7 +66,7 @@ describe('Users API', () => {
         it('Should return 200 when users array is returned', (done) => {
             chai.request(server)
                 .get('/api/users/all')
-                .then(res => {                    
+                .then(res => {            
                     expect(res).to.have.status(httpStatus.OK);
                     expect(res.body.users).to.be.a('array'); 
                     expect(res.body.success).to.be.true;
