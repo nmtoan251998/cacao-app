@@ -2,9 +2,9 @@ const bcrypt = require('bcrypt');
 
 const User = require('../model/users.model');
 
-module.exports.test = (req, res) => {
-    res.send('Test users API');
-}
+// module.exports.test = (req, res) => {
+//     res.send('Test users API');
+// }
 
 module.exports.user = (req, res) => {    
     const user = req.user;        
@@ -41,15 +41,7 @@ module.exports.modifyUserById = (req, res) => {
     const error = {};
 
     User.findById(id)
-        .then(user => {
-            if(!user) {
-                error.noUser = 'No user found';
-                return res.status(404).json({ 
-                    success: false,
-                    error
-                });
-            }            
-
+        .then(user => {                        
             const modifiedData = {
                 _id: user._id,
                 accountname: user.accountname,
@@ -79,14 +71,6 @@ module.exports.deleteUserById = (req, res) => {
     
     User.findById(id)
         .then(user => {            
-            if(!user) {
-                error.noUser = 'No user found';
-                return res.status(404).json({ 
-                    success: false,
-                    error
-                });
-            }
-            
             User.findByIdAndRemove(id)
                 .then(deletedUser => {
                     res.status(200).json({

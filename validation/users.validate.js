@@ -13,8 +13,8 @@ module.exports.validateModifyInput = (req, res, next) => {
     }
     
     // username must be between min and max characters 
-    if(!validator.isLength(username, { min: 2, max: 30 })) {
-        error.usernameLength = 'Username field must be at least 6 character and below 30 characters';
+    if(!validator.isLength(username, { min: 2 })) {
+        error.usernameLength = 'Username field must be at least 2 character';
     }    
 
     // password cannot be empty
@@ -23,8 +23,8 @@ module.exports.validateModifyInput = (req, res, next) => {
     } 
 
     // password must be between min and max characters 
-    if(!validator.isLength(password, { min: 6, max: 20 })) {
-        error.passwordLength = 'Password field must be at least 6 character and below 20 characters';
+    if(!validator.isLength(password, { min: 8, max: 20 })) {
+        error.passwordLength = 'Password field must be at least 8 character and below 20 characters';
     }
 
     // password2 cannot be empty

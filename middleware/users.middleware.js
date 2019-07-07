@@ -30,23 +30,16 @@ module.exports.checkToken = (req, res, next) => {
         
     if(token) {
         jwt.verify(token, secretOrKey, (err, payload) => {
-            if(err) {                        
-                error.invalidToken = 'Invalid auth token';
-                return res.status(401).json({
-                    success: false,                    
+            if(err) {                   
+                error.unauthor = 'Unauthorization';
+                return res.status(401).json({ 
+                    success: false,
                     error
                 });
             }
             
             User.findById(payload.userId)            
                 .then(user => {                    
-                    if(!user) {                        
-                        error.invalidToken = 'Unauthorization';
-                        return res.status(403).json({
-                            success: false,
-                            error
-                        })
-                    }
                     // sign payload information into req.user
                     req.user = user;                        
                     next();
@@ -55,7 +48,7 @@ module.exports.checkToken = (req, res, next) => {
     }            
 }
 
-module.exports.protectedRoute = (req, res, next) => {    
+module.exports.protectedRoute = (req, res, next) => {
     const id = req.params.id;
     const error = {};    
 

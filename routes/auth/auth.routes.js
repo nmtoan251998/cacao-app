@@ -14,7 +14,7 @@ const {
 // @route   GET /auth/test
 // @desc    Test route
 // @access  Public
-router.get('/test', test);
+// router.get('/test', test);
 
 // @route   POST /auth/register
 // @desc    Regist new user

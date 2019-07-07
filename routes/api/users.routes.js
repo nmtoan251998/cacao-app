@@ -21,7 +21,7 @@ const {
 // @route   GET /api/users/test
 // @desc    Test route
 // @access  Public
-router.get('/test', test);
+// router.get('/test', test);
 
 // @route   GET /api/users
 // @desc    Get current user

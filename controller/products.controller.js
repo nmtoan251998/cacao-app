@@ -1,8 +1,8 @@
 const Product = require('../model/products.model');
 
-module.exports.test = (req, res) => {
-    res.send('Test product API');
-}
+// module.exports.test = (req, res) => {
+//     res.send('Test product API');
+// }
 
 module.exports.createProduct = (req, res) => {
     const error = {};

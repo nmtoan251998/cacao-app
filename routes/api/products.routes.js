@@ -22,7 +22,7 @@ const {
 // @route   GET /api/products/test
 // @desc    Test route
 // @access  Public
-router.get('/test', test);
+// router.get('/test', test);
 
 // @route   POST /api/products
 // @desc    Mock api to create new product
