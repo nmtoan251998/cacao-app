@@ -21,20 +21,20 @@
     - required: true
     - regexp: 
         1. length: min: 1 - max: 10
-        2. startWith: [a-z] || [A-Z]
+        2. startWith: [a-zA-Z]
         3. oneOf: ['food','drinks']
 4. image
     - type: string
     - required: optional
     - regexp: length: min: 1 - max: 1000
 5. price
-    - type: double
+    - type: number
     - required: true
     - regexp: length: min: 3
 6. description 
     - type: string
     - required: optional
-    - regexp: length: min: 50 - max: 150
+    - regexp: length: min: 10 - max: 150
 7. featured
     - type: boolean
     - required: true
@@ -61,20 +61,20 @@
     - required: true
     - regexp: 
         1. length: min: 1 - max: 10
-        2. startWith: [a-z] || [A-Z]
+        2. startWith: [a-zA-Z]
         3. oneOf: ['food','drinks']
 4. image
     - type: string
     - required: optional
     - regexp: length: min: 1 - max: 1000
 5. price
-    - type: double
+    - type: number
     - required: true
     - regexp: length: min: 3
 6. description 
     - type: string
     - required: optional
-    - regexp: length: min: 50 - max: 150
+    - regexp: length: min: 10 - max: 150
 7. featured
     - type: boolean
     - required: true
