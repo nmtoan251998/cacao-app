@@ -9,7 +9,10 @@ const options = {
 mongoose.connect(mongoURI, options)
     .then(
         () => console.log('Database connection established'),
-        err => console.log('Database connection unestablied, error occurred')
+        err => {
+            console.log(err);
+            console.log('Database connection unestablied, error occurred')
+        }
     )
 
 module.exports = mongoose;
