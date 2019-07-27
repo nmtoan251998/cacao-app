@@ -1,7 +1,7 @@
 const express = require('express');
-const logger = require('morgan');
 const cors = require('cors');
 const morgan = require('morgan');
+const passport = require('passport');
 
 // .env
 require('dotenv').config();
@@ -15,12 +15,13 @@ const PORT = process.env.PORT || 5000;
 
 // cores middlewares
 app.use(cors());
-app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use(passport.initialize());
+
 if(process.env.NODE_ENV !== 'test') {
-    app.use(logger('dev'));
+    app.use(morgan('dev'));
 }
 
 // serve uploaded files

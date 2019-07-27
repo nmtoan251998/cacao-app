@@ -76,7 +76,7 @@ module.exports.loginUser = (req, res, next) => {
                 const token = jwt.sign({ userId: user._id }
                     , secretOrKey
                     , { expiresIn: '24h' } // expires in 24 hours
-                );
+                )
     
                 res.status(200).json({ 
                     success: true,                    

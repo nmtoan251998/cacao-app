@@ -27,6 +27,10 @@ const userSchema = mongoose.Schema({
     createDate: {
         type: Date,
         default: Date.now
+    },
+    facebook: {
+        id: String,
+        accessToken: String        
     }
 });
 

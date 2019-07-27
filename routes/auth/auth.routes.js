@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const passport = require('passport');
 
 const {
     test,
@@ -31,5 +32,20 @@ router.post(
     '/login'
     , validateLoginInput
     , loginUser);
+
+// @route   POST /auth/facebook
+// @desc    Login user with facebook account
+// @access  Public
+router.get(
+    '/facebook'
+    , passport.authenticate('facebook')
+);
+
+router.get(
+    '/facebook/callback'
+    , passport.authenticate(
+            'facebook'
+            , { successRedirect: '/api/users', failureRedirect: 'auth/login' })
+);
 
 module.exports = router;

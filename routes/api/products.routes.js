@@ -32,10 +32,10 @@ const {
 // @desc    Mock api to create new product
 // @access  Private
 router.post(
-    ''        
+    ''
     , checkToken
     , upload.single('image')
-    , validateCreationInput    
+    , validateCreationInput
     , createProduct);
 
 // @route   GET /api/products/all
@@ -81,7 +81,5 @@ router.get(
 router.get(
     '/action/search?'
     , searchProductByName);
-
-
 
 module.exports = router;
